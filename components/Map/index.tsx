@@ -8,7 +8,6 @@ import Script from "next/script";
 import { BsMap } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
-import { FullPageLoader } from "../Loader";
 
 declare global {
   interface Window {
@@ -16,7 +15,17 @@ declare global {
   }
 }
 
-export default function Map() {
+type Props = {
+  fallback: React.ReactNode;
+  lat?: number;
+  lng?: number;
+};
+
+export default function Map({
+  fallback,
+  lat = DEFAULT_LAT,
+  lng = DEFAULT_LNG,
+}: Props) {
   const setSelectedRoom = useSetRecoilState(selectedRoomState);
 
   const fetchRooms = async () => {
@@ -30,12 +39,17 @@ export default function Map() {
     window.kakao.maps.load(() => {
       const mapContainer = document.getElementById("map");
       const mapOption = {
-        center: new window.kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LNG),
+        center: new window.kakao.maps.LatLng(lat, lng),
         level: ZOOM_LEVEL,
       };
 
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
+      // 확대 축소 제어
+      map.setZoomable(false);
 
+      // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+      const zoomControl = new window.kakao.maps.ZoomControl();
+      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
       rooms?.map((room) => {
         const markerPosition = new window.kakao.maps.LatLng(room.lat, room.lng);
 
@@ -83,6 +97,7 @@ export default function Map() {
       });
     });
   };
+
   return (
     <>
       {isSuccess ? (
@@ -93,7 +108,7 @@ export default function Map() {
           onReady={loadKakaoMap}
         />
       ) : (
-        <FullPageLoader />
+        <>{fallback}</>
       )}
       <div id="map" className="w-full h-screen" />
     </>
@@ -105,7 +120,7 @@ export function MapButton({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="flex gap-2 items-center text-sm bg-black rounded-full text-white px-5 py-3.5 shadow-sm hover:shadow-lg mx-auto sticky bottom-12"
+      className="flex gap-2 items-center text-sm bg-black rounded-full text-white px-5 py-3.5 shadow-sm hover:shadow-lg mx-auto sticky bottom-12 z-[2]"
     >
       지도 표시하기
       <BsMap className="text-xs" />

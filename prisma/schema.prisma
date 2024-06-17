@@ -93,6 +93,9 @@ model Room{
   hasWifi Boolean @default(false)
   hasBarbeque Boolean @default(false)
   hasFreeParking Boolean @default(false)
+  sale Int?
+  guestPreferences Boolean @default(false)
+  updatedAt DateTime @default(now()) @updatedAt
   createdAt DateTime @default(now())
   userId String
   likes Like[]
@@ -100,6 +103,15 @@ model Room{
   bookings Booking[]
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([userId])
+}
+
+model Events{
+  id Int @id @default(autoincrement())
+  title String
+  term String
+  type String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Faq{
@@ -115,10 +127,11 @@ model Booking{
   guestCount Int
   totalDays Int
   totalAmount Int
+  discounted Int?
   roomId Int
   userId String
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
   status BookingStatus
   room Room @relation(fields: [roomId], references: [id])
   user User @relation(fields: [userId], references: [id])
@@ -170,7 +183,7 @@ model Payment {
   failureCode String?
   failureMessage String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
   paymentKey String?
   booking Booking @relation(fields: [bookingId], references: [id])
 }

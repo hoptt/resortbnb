@@ -73,3 +73,8 @@ export const searchState = atom<SearchProps>({
     q: null,
   },
 });
+
+export const prevPathState = atom<string | undefined>({
+  key: "prevPathState",
+  default: undefined,
+});

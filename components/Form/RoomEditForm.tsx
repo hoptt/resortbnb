@@ -1,7 +1,7 @@
 "use client";
 
-import { RoomFeatureProps } from "@/app/rooms/(form)/register/feature/page";
-import { CATEGORY, FeatureFormField, RoomEditField } from "@/constants";
+import { RoomFeatureProps } from "@/app/(page)/rooms/(form)/register/feature/page";
+import { CATEGORY_DATA, FeatureFormField, RoomEditField } from "@/constants";
 import { RoomFormOptionalType, RoomType } from "@/interface";
 import { storage } from "@/utils/firebaseApp";
 import axios from "axios";
@@ -124,6 +124,13 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
           if (!imageUrls) return;
           const result = await axios.patch(`/api/rooms?id=${data.id}`, {
             ...res,
+            price:
+              typeof res.price === "string"
+                ? parseInt(
+                    (res.price as unknown as string).replace(/,/g, ""),
+                    10
+                  )
+                : res.price,
             images: imageUrls,
             imageKeys: newImageKeys.length > 0 ? newImageKeys : imageKeys,
           });
@@ -170,9 +177,9 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
           className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black"
         >
           <option value="">카테고리 선택</option>
-          {CATEGORY.map((category) => (
-            <option key={category} value={category}>
-              {category}
+          {CATEGORY_DATA.map((category) => (
+            <option key={category.title} value={category.title}>
+              {category.title}
             </option>
           ))}
         </select>
@@ -200,8 +207,19 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
           숙소 가격 (1박 기준)
         </label>
         <input
-          type="number"
+          type="text"
           {...register("price", { required: true })}
+          onChange={(e) => {
+            const value = e.target.value;
+
+            const numericValue = value.replace(/\D/g, "");
+
+            const formattedValue = new Intl.NumberFormat("ko-KR").format(
+              numericValue as any
+            );
+
+            e.target.value = formattedValue;
+          }}
           className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black resize-none"
         />
         {errors.price && errors.price.type === "required" && (

@@ -102,6 +102,11 @@ export default function CommentListModal({
                   <div className="mt-8 flex flex-col gap-8 max-w-lg mb-5">
                     {comments?.pages?.map((page, index) => (
                       <React.Fragment key={index}>
+                        {page.data.length === 0 && (
+                          <div className="mt-5">
+                            조회된 후기 데이터가 없습니다
+                          </div>
+                        )}
                         {page.data.map((comment) => (
                           <div key={comment.id} className="flex flex-col gap-2">
                             <div className="flex gap-2 items-center">
@@ -132,9 +137,6 @@ export default function CommentListModal({
                     ))}
                   </div>
                   <div ref={ref} className="w-full h-[1px] z-10 touch-none" />
-                  {/* {(hasNextPage || isFetching || isFetchingNextPage) && (
-                    <Loader className="my-8" />
-                  )} */}
                 </DialogPanel>
               </TransitionChild>
             </div>

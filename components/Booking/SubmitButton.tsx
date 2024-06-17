@@ -18,6 +18,7 @@ export default function SubmitButton({ title }: { title: string }) {
   const guestCount = searchParams.get("guestCount");
   const totalAmount = searchParams.get("totalAmount");
   const totalDays = searchParams.get("totalDays");
+  const discounted = searchParams.get("discounted");
 
   const handleSubmit = async () => {
     try {
@@ -29,12 +30,13 @@ export default function SubmitButton({ title }: { title: string }) {
         guestCount,
         totalAmount,
         totalDays,
+        discounted,
         status: "PENDING",
       });
 
       if (res.status === 200) {
         router.replace(
-          `/payments?customerKey=${session?.user.id}&roomTitle=${title}&checkIn=${checkIn}&checkOut=${checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${totalDays}&roomId=${id}&bookingId=${res.data.id}`
+          `/payments?customerKey=${session?.user.id}&roomTitle=${title}&checkIn=${checkIn}&checkOut=${checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${totalDays}&roomId=${id}&bookingId=${res.data.id}&discounted=${res.data.discounted}`
         );
         // router.replace(`/users/bookings/${res.data.id}`);
       } else {

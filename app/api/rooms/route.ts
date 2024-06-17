@@ -10,7 +10,7 @@ export async function GET(req: Request) {
   const limit = (searchParams.get("limit") as string) || "10";
   const id = searchParams.get("id") as string;
 
-  // 나의 숙소만 가져오기
+  // 나의 숙소만 불러오기
   const my = searchParams.get("my") as string;
 
   // 메인페이지 필터링
@@ -18,6 +18,12 @@ export async function GET(req: Request) {
   const category = searchParams.get("category") as string;
   // 내가 만든 숙소 필터링
   const q = searchParams.get("q") as string;
+
+  // 필터된 숙소 불러오기
+  const filter = searchParams.get("filter") as string;
+
+  // 세일 숙소 불러오기
+  const sale = searchParams.get("sale") as string;
 
   const session = await getServerSession(authOption);
 
@@ -68,29 +74,50 @@ export async function GET(req: Request) {
       { status: 200 }
     );
   } else if (page) {
-    if (page) {
-      const count = await prisma.room.count();
-      const skipPage = parseInt(page) - 1;
-      const rooms = await prisma.room.findMany({
+    const count = await prisma.room.count();
+    const skipPage = parseInt(page) - 1;
+    let options: any = {
+      orderBy: { createdAt: "desc" },
+      take: parseInt(limit),
+      skip: skipPage * parseInt(limit),
+      include: {
+        likes: {
+          where: session ? { userId: session.user?.id } : {},
+        },
+      },
+    };
+    if (filter) {
+      options = {
         where: {
           address: location ? { contains: location } : {},
           category: category ? category : {},
         },
-        orderBy: { createdAt: "desc" },
-        take: parseInt(limit),
-        skip: skipPage * parseInt(limit),
-      });
-
-      return NextResponse.json(
-        {
-          page: parseInt(page),
-          data: rooms,
-          totalCount: count,
-          totalPage: Math.ceil(count / parseInt(limit)),
-        },
-        { status: 200 }
-      );
+        ...options,
+      };
     }
+
+    if (sale) {
+      options = {
+        where: {
+          sale: {
+            not: null,
+          },
+        },
+        ...options,
+      };
+    }
+
+    const rooms = await prisma.room.findMany(options);
+
+    return NextResponse.json(
+      {
+        page: parseInt(page),
+        data: rooms,
+        totalCount: count,
+        totalPage: Math.ceil(count / parseInt(limit)),
+      },
+      { status: 200 }
+    );
   } else {
     const data = await prisma.room.findMany();
 

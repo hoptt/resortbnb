@@ -1,0 +1,75 @@
+.timer__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.timer__separtor__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: flex-end;
+  margin: 0 0 10px 0px;
+}
+
+.timer__separtor {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: #080808;
+  border-radius: 6px;
+  margin: 5px 0px;
+}
+
+.timer__digit__container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 5px;
+}
+.timer__digit__container:first-child {
+  margin-left: 0;
+}
+
+.timer__digit__title {
+  font-size: 15px;
+  margin-bottom: 5px;
+  color: white;
+}
+
+.timer__digit__container__sub {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 0;
+}
+
+.timer__digit__single {
+  position: relative;
+  display: flex;
+  flex: 0 1 25%;
+  font-size: 30px;
+  background-color: #080808;
+  border-radius: 5px;
+  flex-grow: 1;
+  /* padding: 10px 12px; */
+  padding: 0.25rem 0;
+  color: white;
+}
+.timer__digit__single:first-child {
+  margin-right: 2px;
+}
+.timer__digit__single:after {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 50%;
+  bottom: 50%;
+  content: "";
+  width: 100%;
+  height: 2px;
+  background-color: #232323;
+  opacity: 0.4;
+}

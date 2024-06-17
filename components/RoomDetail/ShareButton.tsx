@@ -2,33 +2,39 @@
 import { BLUR_DATA_URL } from "@/constants";
 import { RoomType } from "@/interface";
 import {
-  Transition,
   Dialog,
-  TransitionChild,
   DialogPanel,
   DialogTitle,
+  Transition,
+  TransitionChild,
 } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, MouseEventHandler, useState } from "react";
 import toast from "react-hot-toast";
 import {
   AiFillFacebook,
   AiFillTwitterSquare,
   AiOutlineClose,
-  AiOutlineCloseCircle,
   AiOutlineCopy,
   AiOutlineMail,
 } from "react-icons/ai";
 import { CiShare1 } from "react-icons/ci";
 
-export default function ShareButton({ data }: { data: RoomType }) {
+export default function ShareButton({
+  data,
+  children,
+}: {
+  data: RoomType;
+  children: React.ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const closeModal = () => {
     setIsOpen(false);
   };
 
-  const openModal = () => {
+  const openModal: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
     setIsOpen(true);
   };
 
@@ -60,8 +66,7 @@ export default function ShareButton({ data }: { data: RoomType }) {
         onClick={openModal}
         className="flex gap-2 items-center px-2 py-1.5 rounded-lg hover:bg-black/10"
       >
-        <CiShare1 />
-        <span className="underline">공유하기</span>
+        {children}
       </button>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-[100]" onClose={closeModal}>

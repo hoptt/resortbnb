@@ -5,7 +5,6 @@ import { CommentApiType } from "@/interface";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import { useState } from "react";
-import { BiChevronRight } from "react-icons/bi";
 import { Loader } from "../Loader";
 import CommentListModal from "./CommentListModal";
 
@@ -54,18 +53,11 @@ export default function CommentList({
                 </div>
               </div>
               <div className="max-w-md text-gray-600 ml-2">{comment.body}</div>
-              <button
-                type="button"
-                onClick={openModal}
-                className="underline font-semibold flex gap-1 items-center justify-start ml-2"
-              >
-                더보기 <BiChevronRight className="text-xl" />
-              </button>
             </div>
           ))
         )}
       </div>
-      {comments?.totalCount > 0 && (
+      {comments?.totalCount > 6 && (
         <div className="mt-8 mb-20">
           <button
             type="button"

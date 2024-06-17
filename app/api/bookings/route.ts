@@ -10,6 +10,7 @@ interface BookingProps {
   guestCount: string;
   totalAmount: string;
   totalDays: string;
+  discounted?: string;
   status: "SUCCESS" | "CANCEL" | "PENDING" | "FAILED";
 }
 
@@ -79,6 +80,7 @@ export async function POST(req: Request) {
     guestCount,
     totalAmount,
     totalDays,
+    discounted,
     status,
   }: BookingProps = formData;
 
@@ -95,6 +97,7 @@ export async function POST(req: Request) {
       guestCount: parseInt(guestCount),
       totalAmount: parseInt(totalAmount),
       totalDays: parseInt(totalDays),
+      discounted: parseInt(discounted!) || null,
       status,
     },
   });

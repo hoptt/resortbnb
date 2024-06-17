@@ -1,59 +1,82 @@
-import { FilterComponentProps } from "@/interface";
+"use client";
+
 import cn from "classnames";
 
-import Calendar from "react-calendar";
-
+import { detailFilterState, filterState } from "@/atom";
+import { LOCATION_DATA } from "@/constants";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
-import { detailFilterState, filterState } from "@/atom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import FilterLayout from "./layout";
 
+const DynamicCalendar = dynamic(() => import("react-calendar"), {
+  ssr: false,
+});
+
 export const SearchFilter = () => {
+  const detailFilter = useRecoilValue(detailFilterState);
   return (
     <>
+      <FilterLayout
+        data-cy="filter-location-wrapper"
+        isShow={detailFilter === "location"}
+      >
+        <LocationFilter />
+      </FilterLayout>
+      <FilterLayout isShow={detailFilter === "checkIn"}>
+        <CheckInFilter />
+      </FilterLayout>
+      <FilterLayout isShow={detailFilter === "checkOut"}>
+        <CheckOutFilter />
+      </FilterLayout>
+      <FilterLayout isShow={detailFilter === "guest"}>
+        <GuestFilter />
+      </FilterLayout>
+    </>
+  );
+};
+
+export const SearchFilterMobile = () => {
+  return (
+    <div className="flex flex-col gap-10">
       <LocationFilter />
       <CheckInFilter />
       <CheckOutFilter />
       <GuestFilter />
-    </>
+    </div>
   );
 };
 
 const LocationFilter = () => {
   const [filterValue, setFilterValue] = useRecoilState(filterState);
-  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
+  const setDetailFilter = useSetRecoilState(detailFilterState);
 
   return (
-    <FilterLayout
-      data-cy="filter-location-wrapper"
-      title="지역으로 검색하기"
-      isShow={detailFilter === "location"}
-    >
+    <div>
+      <div className="text-sm font-semibold">지역으로 검색하기</div>
       <div className="flex flex-wrap gap-4 mt-4">
-        {["서울", "경기", "부산", "대구", "인천", "광주", "대전", "울산"].map(
-          (city) => (
-            <button
-              key={city}
-              type="button"
-              data-cy={`filter-location-${city}`}
-              className={cn(
-                "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500",
-                {
-                  "bg-rose-600 text-white": filterValue.location === city,
-                }
-              )}
-              onClick={() => {
-                setFilterValue((prev) => ({ ...prev, location: city }));
-                setDetailFilter("checkIn");
-              }}
-            >
-              {city}
-            </button>
-          )
-        )}
+        {Object.keys(LOCATION_DATA).map((city) => (
+          <button
+            key={city}
+            type="button"
+            data-cy={`filter-location-${city}`}
+            className={cn(
+              "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500",
+              {
+                "bg-rose-600 text-white": filterValue.location === city,
+              }
+            )}
+            onClick={() => {
+              setFilterValue((prev) => ({ ...prev, location: city }));
+              setDetailFilter("checkIn");
+            }}
+          >
+            {city}
+          </button>
+        ))}
         <button
           className={cn(
             "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500",
@@ -72,13 +95,13 @@ const LocationFilter = () => {
           전체
         </button>
       </div>
-    </FilterLayout>
+    </div>
   );
 };
 
 const CheckInFilter = () => {
   const [filterValue, setFilterValue] = useRecoilState(filterState);
-  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
+  const setDetailFilter = useSetRecoilState(detailFilterState);
   const onChange = (e: any) => {
     setFilterValue((prev) => ({
       ...prev,
@@ -87,11 +110,9 @@ const CheckInFilter = () => {
     setDetailFilter("checkOut");
   };
   return (
-    <FilterLayout
-      title="체크인 날짜 설정하기"
-      isShow={detailFilter === "checkIn"}
-    >
-      <Calendar
+    <div>
+      <div className="text-sm font-semibold">체크인 날짜 설정하기</div>
+      <DynamicCalendar
         next2Label={null}
         prev2Label={null}
         className="mt-8 mx-auto"
@@ -100,12 +121,12 @@ const CheckInFilter = () => {
         value={filterValue.checkIn ? new Date(filterValue.checkIn) : null}
         formatDay={(locale, date) => dayjs(date).format("DD")}
       />
-    </FilterLayout>
+    </div>
   );
 };
 const CheckOutFilter = () => {
   const [filterValue, setFilterValue] = useRecoilState(filterState);
-  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
+  const setDetailFilter = useSetRecoilState(detailFilterState);
   const onChange = (e: any) => {
     setFilterValue((prev) => ({
       ...prev,
@@ -114,11 +135,9 @@ const CheckOutFilter = () => {
     setDetailFilter("guest");
   };
   return (
-    <FilterLayout
-      title="체크아웃 날짜 설정하기"
-      isShow={detailFilter === "checkOut"}
-    >
-      <Calendar
+    <div>
+      <div className="text-sm font-semibold">체크아웃 날짜 설정하기</div>
+      <DynamicCalendar
         next2Label={null}
         prev2Label={null}
         className="mt-8 mx-auto"
@@ -129,15 +148,15 @@ const CheckOutFilter = () => {
         value={filterValue.checkOut ? new Date(filterValue.checkOut) : null}
         formatDay={(locale, date) => dayjs(date).format("DD")}
       />
-    </FilterLayout>
+    </div>
   );
 };
 const GuestFilter = () => {
   const [filterValue, setFilterValue] = useRecoilState(filterState);
-  const detailFilter = useRecoilValue(detailFilterState);
   const [counter, setCounter] = useState<number>(filterValue.guest || 0);
   return (
-    <FilterLayout title="게스트 수 추가하기" isShow={detailFilter === "guest"}>
+    <div>
+      <div className="text-sm font-semibold">게스트 수 추가하기</div>
       <div className="mt-4 border border-gray-200 rounded-lg py-2 px-4 flex justify-between items-center">
         <div>
           <div className="font-semibold text-sm">게스트 수 추가</div>
@@ -173,6 +192,6 @@ const GuestFilter = () => {
           </button>
         </div>
       </div>
-    </FilterLayout>
+    </div>
   );
 };

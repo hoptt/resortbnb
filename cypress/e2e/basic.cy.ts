@@ -8,7 +8,7 @@ export const API_URL = "http://localhost:3000";
 //     cy.visit(`${API_URL}/map`);
 //   });
 //   it("로그인 페이지 방문", () => {
-//     cy.visit(`${API_URL}/users/signin`);
+//     cy.visit(`${API_URL}/signin`);
 //   });
 //   it("FAQ 페이지 방문", () => {
 //     cy.visit(`${API_URL}/faqs`);

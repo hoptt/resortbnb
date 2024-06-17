@@ -10,7 +10,7 @@ import { useRecoilState } from "recoil";
 export default function SelectedRoom() {
   const [selectedRoom, setSelectedRoom] = useRecoilState(selectedRoomState);
   return (
-    <div className="fixed inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-xs md:max-w-sm z-10 w-full bg-white">
+    <div className="absolute inset-x-0 mx-auto bottom-32 rounded-lg shadow-lg max-w-xs md:max-w-sm z-10 w-full bg-white">
       {selectedRoom && (
         <div className="flex flex-col relative">
           <button

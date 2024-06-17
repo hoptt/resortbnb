@@ -1,12 +1,14 @@
 "use client";
 
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { RecoilRoot } from "recoil";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { Toaster } from "react-hot-toast";
+import PathStoreComponent from "@/components/Help/PathStoreComponent";
+import ScrollComponent from "@/components/Help/ScrollComponent";
+import Navbar from "@/components/Nav/Navbar";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { RecoilRoot } from "recoil";
 
 type Props = {
   children: React.ReactNode;
@@ -21,6 +23,8 @@ export const NextProvider = ({ children }: Props) => {
         <SessionProvider>
           {children}
           <Toaster />
+          <ScrollComponent />
+          <PathStoreComponent />
         </SessionProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>

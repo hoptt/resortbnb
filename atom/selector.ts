@@ -1,7 +1,7 @@
-import { selector } from "recoil";
-import { filterState } from ".";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import { selector } from "recoil";
+import { filterState } from ".";
 
 export const calculatedFilterState = selector({
   key: "FilterStateSelector",

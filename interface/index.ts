@@ -19,7 +19,6 @@ export interface FilterComponentProps {
 }
 
 export interface FilterLayoutProps {
-  title: string;
   children: ReactNode;
   isShow: boolean;
 }
@@ -27,7 +26,7 @@ export interface FilterLayoutProps {
 export interface LikeType {
   id: number;
   roomId: number;
-  userId: number;
+  userId: string;
   createdAt: string;
   room: RoomType;
 }
@@ -47,6 +46,12 @@ export interface CommentApiType {
   totalCount: number;
   page?: number;
   totalPage?: number;
+}
+export interface RoomApiType {
+  data: RoomType[];
+  totalCount: number;
+  page: number;
+  totalPage: number;
 }
 
 export interface RoomType {
@@ -73,6 +78,8 @@ export interface RoomType {
   hasWifi: boolean;
   hasBarbeque: boolean;
   hasFreeParking: boolean;
+  guestPreferences: boolean;
+  sale?: number;
   createdAt?: string;
   updatedAt?: string;
   likes?: LikeType[];
@@ -87,8 +94,8 @@ export interface FaqType {
 }
 
 export interface LocationType {
-  lat?: string | null;
-  lng?: string | null;
+  lat?: number | null;
+  lng?: number | null;
   zoom?: number;
 }
 
@@ -135,6 +142,7 @@ export interface BookingType {
   totalAmount: number;
   totalDays: number;
   status: "SUCCESS" | "CANCEL";
+  discounted?: number;
   createdAt: string;
   updatedAt: string;
   room: RoomType;
