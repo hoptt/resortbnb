@@ -21,6 +21,10 @@ export default function DetailRoomMap({ data }: { data: RoomType }) {
       };
 
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
+
+      // 확대 축소 제어
+      map.setZoomable(false);
+
       // 이동 제어
       map.setDraggable(false);
       const markerPosition = new window.kakao.maps.LatLng(data.lat, data.lng);

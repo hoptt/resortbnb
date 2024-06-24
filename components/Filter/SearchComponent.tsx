@@ -24,7 +24,7 @@ const randomString = [
     벚꽃 구경 떠나기 <span className="text-xs">🌸</span>
   </>,
   <>
-    서울 경복궁 투어하기 <span className="text-xs">👑</span>
+    서울 경복궁 투어 <span className="text-xs">👑</span>
   </>,
   <>
     해운대 해수욕장 <span className="text-xs">🏖️</span>
@@ -33,7 +33,7 @@ const randomString = [
     남해 돌산 대나무숲 <span className="text-xs">🌿</span>
   </>,
   <>
-    여수 밤바다 <span className="text-xs">🌃</span>
+    여수 밤바다 구경<span className="text-xs">🌃</span>
   </>,
 ];
 export default function SearchComponent({
@@ -124,7 +124,7 @@ export default function SearchComponent({
     let timer;
     timer = setInterval(() => {
       setRdEvent((prev) => {
-        if (prev >= 2) {
+        if (prev >= 4) {
           return 0;
         }
         return prev + 1;

@@ -48,6 +48,7 @@ export default function Map({
       };
 
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
+
       // 확대 축소 제어
       map.setZoomable(false);
 
