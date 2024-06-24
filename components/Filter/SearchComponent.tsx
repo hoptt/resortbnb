@@ -313,7 +313,9 @@ export default function SearchComponent({
                 )}
                 style={{
                   transition:
-                    "transform .5s cubic-bezier(0.02, 0.87, 0.33, 1.15), opacity 0.1s",
+                    "transform .5s cubic-bezier(0.02, 0.87, 0.33, 1.15), opacity .25s cubic-bezier(0.45, 0.23, 0.73, 0.27)",
+                  transitionDelay: idx === rdEvent ? ".2s" : "0s",
+                  // transitionDelay: "3s",
                 }}
               >
                 {randomString[idx]}

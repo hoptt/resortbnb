@@ -113,7 +113,7 @@ export default function CommentListModal({
                               <img
                                 src={comment?.user?.image || "/images/logo.png"}
                                 alt="profile img"
-                                className="rounded-full w-[50px] h-[50px] object-cover"
+                                className="rounded-full w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] object-cover"
                               />
                               <div>
                                 <h1 className="font-semibold">

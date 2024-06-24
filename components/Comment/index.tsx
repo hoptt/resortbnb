@@ -64,7 +64,7 @@ export function UserComments() {
                   <img
                     src={comment?.user?.image || "/images/logo.png"}
                     alt="profile img"
-                    className="rounded-full w-[50px] h-[50px] object-cover"
+                    className="rounded-full w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] object-cover"
                   />
                   <div>
                     <h1 className="font-semibold">{comment?.user?.name}</h1>
@@ -111,7 +111,7 @@ export function Comment({ room }: { room: RoomType }) {
     enabled: !!room.id,
   });
   return (
-    <div className="border-b border-gray-300 py-8 px-4">
+    <div className="border-b border-gray-300 py-8 sm:px-4">
       <CommentList comments={comments} isLoading={isLoading} roomId={room.id} />
       <CommentForm room={room} refetch={refetch} />
     </div>
@@ -153,7 +153,7 @@ function CommentList({
                     <img
                       src={comment.user.image || "/images/logo.png"}
                       alt="profile img"
-                      className="rounded-full w-[50px] h-[50px] object-cover"
+                      className="rounded-full w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] object-cover"
                     />
                     <div>
                       <h1 className="font-semibold">{comment.user.name}</h1>
