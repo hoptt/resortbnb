@@ -11,6 +11,7 @@ import { RxDividerVertical } from "react-icons/rx";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SearchFilter } from ".";
 import { checkPath } from "@/utils";
+import { gamja_Flower } from "@/app/fonts";
 
 type Props = {
   showFilter: boolean;
@@ -20,13 +21,19 @@ type Props = {
 
 const randomString = [
   <>
-    벚꽃구경 떠나기 <span className="text-xs">🌸</span>
+    벚꽃 구경 떠나기 <span className="text-xs">🌸</span>
   </>,
   <>
     서울 경복궁 투어하기 <span className="text-xs">👑</span>
   </>,
   <>
     해운대 해수욕장 <span className="text-xs">🏖️</span>
+  </>,
+  <>
+    남해 돌산 대나무숲 <span className="text-xs">🌿</span>
+  </>,
+  <>
+    여수 밤바다 <span className="text-xs">🌃</span>
   </>,
 ];
 export default function SearchComponent({
@@ -303,19 +310,23 @@ export default function SearchComponent({
             <div className="my-auto font-semibold text-sm">게스트</div>
           </div>
           {/* 모바일 슬롯 UI */}
-          <div className="block sm:hidden text-sm overflow-hidden h-[19px] w-full relative">
+          <div
+            className={cn(
+              "block sm:hidden overflow-hidden h-[28px] w-full relative",
+              gamja_Flower.className
+            )}
+          >
             {randomString.map((str, idx) => (
               <div
                 key={idx}
                 className={cn(
-                  "slot-item absolute left-0 top-[100%] translate-y-0 opacity-0",
+                  "text-lg absolute left-0 top-[100%] translate-y-0 opacity-0",
                   { "translate-y-[-100%] opacity-100": idx === rdEvent }
                 )}
                 style={{
                   transition:
                     "transform .5s cubic-bezier(0.02, 0.87, 0.33, 1.15), opacity .25s cubic-bezier(0.45, 0.23, 0.73, 0.27)",
                   transitionDelay: idx === rdEvent ? ".2s" : "0s",
-                  // transitionDelay: "3s",
                 }}
               >
                 {randomString[idx]}
