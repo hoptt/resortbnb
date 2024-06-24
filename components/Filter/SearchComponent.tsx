@@ -3,7 +3,12 @@
 import cn from "classnames";
 
 import { detailFilterState, filterState } from "@/atom";
-import { DESKTOP_WIDTH, FILTER_PATH, MEDIUM_WIDTH } from "@/constants";
+import {
+  DESKTOP_WIDTH,
+  FILTER_PATH,
+  MEDIUM_WIDTH,
+  SMALL_WIDTH,
+} from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -33,7 +38,7 @@ const randomString = [
     남해 돌산 대나무숲 <span className="text-xs">🌿</span>
   </>,
   <>
-    여수 밤바다 구경<span className="text-xs">🌃</span>
+    여수 밤바다 <span className="">🌃</span>
   </>,
 ];
 export default function SearchComponent({
@@ -46,6 +51,7 @@ export default function SearchComponent({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const filterValue = useRecoilValue(filterState);
   const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
+  const [isMobileView, setIsMobileView] = useState<boolean>(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -96,6 +102,11 @@ export default function SearchComponent({
       if (window.scrollY > 10) {
         setShowFilter(false);
       } else {
+        if (window.innerWidth < SMALL_WIDTH) {
+          setIsMobileView(true);
+        } else {
+          setIsMobileView(false);
+        }
         if (window.innerWidth > DESKTOP_WIDTH) {
           if (checkPath(pathname)) {
             setShowFilter(true);
@@ -106,6 +117,7 @@ export default function SearchComponent({
       }
     };
 
+    resizeHandler();
     window.addEventListener("resize", resizeHandler);
     return () => {
       window.removeEventListener("resize", resizeHandler);
@@ -120,21 +132,24 @@ export default function SearchComponent({
     }
   }, [showFilter]);
 
+  // 모바일 검색 필터 랜덤 슬롯 이벤트
   useEffect(() => {
-    let timer;
-    timer = setInterval(() => {
-      setRdEvent((prev) => {
-        if (prev >= 4) {
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 5000);
+    if (isMobileView) {
+      let timer;
+      timer = setInterval(() => {
+        setRdEvent((prev) => {
+          if (prev >= randomString.length - 1) {
+            return 0;
+          }
+          return prev + 1;
+        });
+      }, 5000);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+      return () => {
+        clearInterval(timer);
+      };
+    }
+  }, [isMobileView]);
 
   return (
     <>

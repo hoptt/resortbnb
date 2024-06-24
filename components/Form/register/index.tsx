@@ -579,7 +579,8 @@ export function RoomRegisterInfo() {
           </label>
           <input
             {...register("title", { required: true, maxLength: 30 })}
-            className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black"
+            placeholder="숙소 이름을 입력해주세요"
+            className="outline-none p-2 border-b-gray-300 border-b focus:border-black"
           />
           {errors.title && errors.title.type === "required" && (
             <span className="text-red-600 text-sm">
@@ -599,7 +600,8 @@ export function RoomRegisterInfo() {
           <textarea
             rows={3}
             {...register("desc", { required: true })}
-            className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black resize-none"
+            placeholder="숙소 설명을 입력해주세요"
+            className="outline-none p-2 border-b-gray-300 border-b focus:border-black resize-none"
           />
           {errors.desc && errors.desc.type === "required" && (
             <span className="text-red-600 text-sm">
@@ -614,6 +616,7 @@ export function RoomRegisterInfo() {
           <input
             type="text"
             {...register("price", { required: true })}
+            placeholder="숙박 가격을 입력해주세요"
             onChange={(e) => {
               const value = e.target.value;
 
@@ -625,7 +628,7 @@ export function RoomRegisterInfo() {
 
               e.target.value = formattedValue;
             }}
-            className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black resize-none"
+            className="outline-none p-2 border-b-gray-300 border-b focus:border-black resize-none"
           />
           {errors.price && errors.price.type === "required" && (
             <span className="text-red-600 text-sm">
@@ -640,7 +643,8 @@ export function RoomRegisterInfo() {
           <textarea
             rows={3}
             {...register("bedroomDesc", { required: true, maxLength: 100 })}
-            className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black resize-none"
+            placeholder="침실 설명을 입력해주세요"
+            className="outline-none p-2 border-b-gray-300 border-b focus:border-black resize-none"
           />
           {errors.bedroomDesc && errors.bedroomDesc.type === "required" && (
             <span className="text-red-600 text-sm">

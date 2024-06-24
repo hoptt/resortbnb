@@ -66,6 +66,7 @@ export const CATEGORY_DATA = [
 
 export const DESKTOP_WIDTH = 1024;
 export const MEDIUM_WIDTH = 768;
+export const SMALL_WIDTH = 640;
 
 /** 스크롤이 최상단에 있을 때 showFilter 해줄 경로들  */
 export const FILTER_PATH = [

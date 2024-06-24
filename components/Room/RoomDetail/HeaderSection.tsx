@@ -28,7 +28,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
       </div>
 
       <div className="mt-6 relative">
-        <div className="h-[520px] overflow-hidden gallery">
+        <div className="aspect-square sm:aspect-auto sm:h-[520px] overflow-hidden gallery">
           {data?.images.slice(0, 5)?.map((img, idx) => (
             <div
               key={img}

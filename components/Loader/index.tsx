@@ -105,7 +105,7 @@ export const LoaderRoomDetail = () => {
   return (
     <>
       <div className="w-[30%] h-[30px] bg-gray-100 mb-5" />
-      <div className="h-[520px] overflow-hidden gallery">
+      <div className="aspect-square sm:aspect-auto sm:h-[520px] overflow-hidden gallery">
         {Array.from({ length: 4 }).map((img, idx) => (
           <div
             key={idx}
