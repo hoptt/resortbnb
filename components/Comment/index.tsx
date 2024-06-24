@@ -64,9 +64,7 @@ export function UserComments() {
                   <img
                     src={comment?.user?.image || "/images/logo.png"}
                     alt="profile img"
-                    width={50}
-                    height={50}
-                    className="rounded-full"
+                    className="rounded-full w-[50px] h-[50px] object-cover"
                   />
                   <div>
                     <h1 className="font-semibold">{comment?.user?.name}</h1>
@@ -75,7 +73,7 @@ export function UserComments() {
                     </div>
                   </div>
                 </div>
-                <div className="max-w-lg text-gray-600 ml-2 whitespace-pre-line break-words">
+                <div className="max-w-lg text-gray-600 ml-2 whitespace-pre-line break-words break-keep">
                   {comment?.body}
                 </div>
                 <button
@@ -155,9 +153,7 @@ function CommentList({
                     <img
                       src={comment.user.image || "/images/logo.png"}
                       alt="profile img"
-                      width={50}
-                      height={50}
-                      className="rounded-full"
+                      className="rounded-full w-[50px] h-[50px] object-cover"
                     />
                     <div>
                       <h1 className="font-semibold">{comment.user.name}</h1>
@@ -166,7 +162,7 @@ function CommentList({
                       </div>
                     </div>
                   </div>
-                  <div className="max-w-md text-gray-600 ml-2 whitespace-pre-line break-words">
+                  <div className="max-w-md text-gray-600 ml-2 whitespace-pre-line break-words break-keep">
                     {comment.body}
                   </div>
                 </div>
@@ -208,8 +204,13 @@ function CommentForm({
 }) {
   const { status } = useSession();
   const [comment, setComment] = useState<string>("");
+  const router = useRouter();
 
   const handleSubmit = async () => {
+    if (status !== "authenticated") {
+      router.push("/signin", { scroll: false });
+      return;
+    }
     if (!comment) {
       toast.error("댓글을 작성해주세요");
       return;
@@ -238,30 +239,26 @@ function CommentForm({
   };
   return (
     <form className="mt-8">
-      {status === "authenticated" && (
-        <>
-          <textarea
-            rows={3}
-            onChange={onChange}
-            name="comment"
-            value={comment}
-            required
-            placeholder="후기를 작성해주세요..."
-            className="w-full block min-h-[120px] resize-none 
+      <textarea
+        rows={3}
+        onChange={onChange}
+        name="comment"
+        value={comment}
+        required
+        placeholder="후기를 작성해주세요..."
+        className="w-full block min-h-[120px] resize-none 
         border rounded-md bg-transparent py-2.5 px-4 placeholder:text-gray-400 text-sm leading-6 outline-none focus:border-black"
-          />
-          <div className="flex flex-row-reverse mt-4">
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="bg-rose-600 hover:bg-rose-500 text-white px-8 py-2.5 text-sm
+      />
+      <div className="flex flex-row-reverse mt-4">
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="bg-rose-600 hover:bg-rose-500 text-white px-8 py-2.5 text-sm
             font-semibold shadow-sm rounded-md"
-            >
-              작성하기
-            </button>
-          </div>
-        </>
-      )}
+        >
+          작성하기
+        </button>
+      </div>
     </form>
   );
 }

@@ -5,7 +5,7 @@ import cn from "classnames";
 import { detailFilterState, filterState } from "@/atom";
 import { DESKTOP_WIDTH, FILTER_PATH, MEDIUM_WIDTH } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { RxDividerVertical } from "react-icons/rx";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -18,12 +18,24 @@ type Props = {
   setShowFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+const randomString = [
+  <>
+    벚꽃구경 떠나기 <span className="text-xs">🌸</span>
+  </>,
+  <>
+    서울 경복궁 투어하기 <span className="text-xs">👑</span>
+  </>,
+  <>
+    해운대 해수욕장 <span className="text-xs">🏖️</span>
+  </>,
+];
 export default function SearchComponent({
   showFilter,
   setShowFilter,
   setShowFilterModal,
 }: Props) {
   const router = useRouter();
+  const [rdEvent, setRdEvent] = useState<number>(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const filterValue = useRecoilValue(filterState);
   const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
@@ -100,6 +112,22 @@ export default function SearchComponent({
       document.body.classList.remove("backdrop__after");
     }
   }, [showFilter]);
+
+  useEffect(() => {
+    let timer;
+    timer = setInterval(() => {
+      setRdEvent((prev) => {
+        if (prev >= 2) {
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 5000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   return (
     <>
@@ -267,17 +295,36 @@ export default function SearchComponent({
             setShowFilter(true);
           }}
         >
-          <div className="flex justify-center gap-1 cursor-pointer">
+          <div className="hidden sm:flex justify-center gap-1 cursor-pointer">
             <div className="my-auto font-semibold text-sm">어디든지</div>
             <RxDividerVertical className="text-gray-200 my-auto" />
             <div className="my-auto font-semibold text-sm">언제든</div>
             <RxDividerVertical className="text-gray-200 my-auto" />
             <div className="my-auto font-semibold text-sm">게스트</div>
           </div>
+          {/* 모바일 슬롯 UI */}
+          <div className="block sm:hidden text-sm overflow-hidden h-[19px] w-full relative">
+            {randomString.map((str, idx) => (
+              <div
+                key={idx}
+                className={cn(
+                  "slot-item absolute left-0 top-[100%] translate-y-0 opacity-0",
+                  { "translate-y-[-100%] opacity-100": idx === rdEvent }
+                )}
+                style={{
+                  transition:
+                    "transform .5s cubic-bezier(0.02, 0.87, 0.33, 1.15), opacity 0.1s",
+                }}
+              >
+                {randomString[idx]}
+              </div>
+            ))}
+          </div>
+
           <div
             id="filter-open-btn"
             data-cy="filter-open-btn"
-            className="bg-rose-500 text-white flex items-center rounded-full w-7 h-7 sm:w-8 sm:h-8"
+            className="bg-rose-500 text-white flex items-center rounded-full w-8 h-7 sm:h-8"
           >
             <AiOutlineSearch className="text-lg m-auto font-semibold" />
           </div>

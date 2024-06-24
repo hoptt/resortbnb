@@ -85,7 +85,7 @@ export default function SearchRoom({ params }: Props) {
   return (
     <>
       <CategoryList />
-      <div className="flex gap-8 mt-20 md:mt-14 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
+      <div className="flex gap-8 mt-14 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
         <div className="flex flex-col w-full">
           <GridLayout isSearch={true}>
             {(rooms?.pages || []).map((page, index) => (

@@ -141,13 +141,13 @@ export default function CategoryList() {
           </div>
         </button>
         <div
-          className="flex gap-5 mx-auto filter__scroll overflow-x-scroll w-full flex-nowrap"
+          className="flex gap-1 sm:gap-5 mx-auto filter__scroll overflow-x-scroll w-full flex-nowrap"
           {...events}
           ref={ref}
         >
           <button
             data-cy="category-filter-all"
-            className="flex-none justify-center gap-2 md:gap-3 w-16 text-center"
+            className="flex-none justify-center gap-2 md:gap-3 min-w-16 text-center"
             onClick={() => {
               setFilterValue((prev) => ({
                 ...prev,
@@ -182,7 +182,7 @@ export default function CategoryList() {
                 }))
               }
               className={cn(
-                "min-w-16 flex-none text-gray-500 hover:text-gray-700 gap-3 justify-center text-center py-4",
+                "min-w-16 flex-none text-gray-500 hover:text-gray-700 gap-3 justify-center text-center py-3 sm:py-4",
                 {
                   "!text-black underline decoration-2 underline-offset-8":
                     filterValue.category === category.title,
@@ -190,7 +190,7 @@ export default function CategoryList() {
               )}
             >
               <div className="flex flex-col justify-center gap-1">
-                <div className="text-2xl mx-auto">
+                <div className="text-xl sm:text-2xl mx-auto">
                   <category.Icon />
                 </div>
                 <div className="text-xs font-semibold text-center">

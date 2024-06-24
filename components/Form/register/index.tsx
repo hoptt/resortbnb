@@ -71,7 +71,7 @@ export function RoomRegisterAddress() {
   return (
     <>
       <form
-        className="flex flex-col gap-4 px-4"
+        className="flex flex-col gap-4 sm:px-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <AddressSearch
@@ -468,7 +468,7 @@ export function RoomRegisterImage() {
   return (
     <>
       <form
-        className="flex flex-col gap-6 px-4"
+        className="flex flex-col gap-6 sm:px-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <p className="text-sm md:text-base text-gray-500 text-center">
@@ -483,7 +483,7 @@ export function RoomRegisterImage() {
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 hover:border-rose-600 px-6 py-10">
                 <div className="text-center">
                   <AiFillCamera className="mx-auto h-12 w-12 text-gray-300 hover:text-rose-300" />
-                  <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                  <div className="mt-4 flex flex-wrap text-sm leading-6 text-gray-600">
                     <span className="text-rose-500 hover:text-rose-600">
                       최대 5장의 사진을
                     </span>
@@ -570,7 +570,7 @@ export function RoomRegisterInfo() {
   return (
     <>
       <form
-        className="flex flex-col gap-6 px-4"
+        className="flex flex-col gap-6 sm:px-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col gap-2">

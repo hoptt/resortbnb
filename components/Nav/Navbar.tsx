@@ -129,7 +129,7 @@ export default function Navbar() {
           id="menu-btn"
           type="button"
           onClick={() => setShowMenu((prev) => !prev)}
-          className="w-[40px] sm:w-[80px] flex gap-3 rounded-full border border-gray-20 lg:shadow-sm p-2 sm:px-4 sm:py-3 my-auto hover:shadow-lg ms-auto sm:ms-0"
+          className="w-[40px] max-w-fit sm:w-[80px] flex gap-3 rounded-full border border-gray-20 lg:shadow-sm p-2 sm:px-4 sm:py-3 my-auto hover:shadow-lg ms-auto sm:ms-0"
         >
           <AiOutlineMenu className="hidden sm:block" />
 
@@ -138,7 +138,7 @@ export default function Navbar() {
               src={session?.user?.image}
               referrerPolicy="no-referrer"
               alt="profile img"
-              className="rounded-full sm:w-4 sm:h-4 my-auto"
+              className="rounded-full w-5 h-5 sm:w-4 sm:h-4 my-auto"
             />
           ) : (
             <AiOutlineUser />

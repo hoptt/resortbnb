@@ -67,7 +67,7 @@ export default function SaleRoom() {
 
   return (
     <>
-      <div className="gap-8 mt-20 md:mt-14 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
+      <div className="gap-8 mt-14 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
         <h1 className="text-xl font-semibold mb-5">
           <span className="text-rose-600 font-bold text-2xl">
             얼리버드 특가

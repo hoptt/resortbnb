@@ -14,7 +14,7 @@ export default function NextButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="fixed bottom-10 inset-x-0 rounded-full max-w-[160px] mx-auto bg-black text-white px-6 py-4 hover:bg-black/70 disabled:bg-gray-300"
+      className="relative sm:fixed sm:bottom-10 inset-x-0 rounded-full w-full sm:w-[160px] mx-auto bg-black text-white py-3 bottom-[-20px] sm:px-6 sm:py-4 hover:bg-black/70 disabled:bg-gray-300"
     >
       {text}
     </button>

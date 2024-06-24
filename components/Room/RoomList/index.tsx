@@ -75,7 +75,7 @@ export function Main({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div className="mt-20 md:mt-14 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
+      <div className="mt-14 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
         <GridLayout>
           {rooms && <>{children}</>}
 

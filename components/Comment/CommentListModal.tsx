@@ -113,9 +113,7 @@ export default function CommentListModal({
                               <img
                                 src={comment?.user?.image || "/images/logo.png"}
                                 alt="profile img"
-                                width={50}
-                                height={50}
-                                className="rounded-full"
+                                className="rounded-full w-[50px] h-[50px] object-cover"
                               />
                               <div>
                                 <h1 className="font-semibold">
@@ -128,7 +126,7 @@ export default function CommentListModal({
                                 </div>
                               </div>
                             </div>
-                            <div className="max-w-lg text-gray-600 ml-2 whitespace-pre-line break-words">
+                            <div className="max-w-lg text-gray-600 ml-2 whitespace-pre-line break-words break-keep">
                               {comment?.body}
                             </div>
                           </div>

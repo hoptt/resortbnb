@@ -103,95 +103,100 @@ export default function MyRoom() {
 
   if (isPending) return <LoaderMyRoom />;
   return (
-    <div className="overflow-auto">
-      <table className="text-sm text-left text-gray-500 overflow-x-scroll table-auto">
-        <thead className="text-xs text-gray-700 bg-gray-50">
-          <tr>
-            <th scope="col" className="py-4 px-6 min-w-[120px]">
-              숙소
-            </th>
-            <th scope="col" className="py-4 px-6 min-w-[300px]">
-              주소
-            </th>
-            <th scope="col" className="py-4 px-6 min-w-[120px]">
-              카테고리
-            </th>
-            <th scope="col" className="py-4 px-6 min-w-[120px]">
-              가격
-            </th>
-            <th scope="col" className="py-4 px-6 min-w-[200px]">
-              생성 날짜
-            </th>
-            <th scope="col" className="py-4 px-6 min-w-[200px]">
-              수정 날짜
-            </th>
-            <th scope="col" className="py-4 px-6 min-w-[100px]">
-              상세보기
-            </th>
-            <th scope="col" className="py-4 px-6 min-w-[80px]">
-              수정
-            </th>
-            <th scope="col" className="py-4 px-6 min-w-[80px]">
-              삭제
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {rooms?.pages?.map((page, idx) => (
-            <React.Fragment key={idx}>
-              {page.totalCount === 0 && (
-                <tr className="bg-gray-100/20">
-                  <td colSpan={9} className="text-center p-10 text-gray-400">
-                    등록하신 숙소가 없습니다
-                  </td>
+    <>
+      {rooms.pages[0].totalCount === 0 ? (
+        <>
+          <div className="mt-5 text-gray-400">
+            조회된 숙소 데이터가 없습니다
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="overflow-auto">
+            <table className="text-sm text-left text-gray-500 overflow-x-scroll table-auto">
+              <thead className="text-xs text-gray-700 bg-gray-50">
+                <tr>
+                  <th scope="col" className="py-4 px-6 min-w-[120px]">
+                    숙소
+                  </th>
+                  <th scope="col" className="py-4 px-6 min-w-[300px]">
+                    주소
+                  </th>
+                  <th scope="col" className="py-4 px-6 min-w-[120px]">
+                    카테고리
+                  </th>
+                  <th scope="col" className="py-4 px-6 min-w-[120px]">
+                    가격
+                  </th>
+                  <th scope="col" className="py-4 px-6 min-w-[200px]">
+                    생성 날짜
+                  </th>
+                  <th scope="col" className="py-4 px-6 min-w-[200px]">
+                    수정 날짜
+                  </th>
+                  <th scope="col" className="py-4 px-6 min-w-[100px]">
+                    상세보기
+                  </th>
+                  <th scope="col" className="py-4 px-6 min-w-[80px]">
+                    수정
+                  </th>
+                  <th scope="col" className="py-4 px-6 min-w-[80px]">
+                    삭제
+                  </th>
                 </tr>
-              )}
-              {page?.data.map((room: RoomType) => (
-                <tr key={room.id} className="bg-white border-b">
-                  <td className="px-6 py-4">{room.title}</td>
-                  <td className="px-6 py-4">{room.base_address}</td>
-                  <td className="px-6 py-4">{room.category}</td>
-                  <td className="px-6 py-4">
-                    {room.price?.toLocaleString()} 원
-                  </td>
-                  <td className="px-6 py-4">
-                    {dayjs(room.createdAt).format("YYYY-MM-DD HH:mm:ss")}
-                  </td>
-                  <td className="px-6 py-4">
-                    {dayjs(room.updatedAt).format("YYYY-MM-DD HH:mm:ss")}
-                  </td>
-                  <td className="px-6 py-4 min-w-[80px]">
-                    <Link
-                      href={`/rooms/${room.id}`}
-                      className="font-medium text-gray-600 hover:underline"
-                    >
-                      보기
-                    </Link>
-                  </td>
-                  <td className="px-6 py-4 min-w-[80px]">
-                    <Link
-                      href={`/rooms/edit/${room.id}`}
-                      className="font-medium text-gray-600 hover:underline"
-                    >
-                      수정
-                    </Link>
-                  </td>
-                  <td className="px-6 py-4 min-w-[80px]">
-                    <button
-                      type="button"
-                      className="font-medium text-gray-600 hover:underline"
-                      onClick={() => handleDelete(room)}
-                    >
-                      삭제
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
-      <div className="w-full touch-none h-1 mb-5" ref={observerRef} />
-    </div>
+              </thead>
+              <tbody>
+                {rooms?.pages?.map((page, idx) => (
+                  <React.Fragment key={idx}>
+                    {page?.data.map((room: RoomType) => (
+                      <tr key={room.id} className="bg-white border-b">
+                        <td className="px-6 py-4">{room.title}</td>
+                        <td className="px-6 py-4">{room.base_address}</td>
+                        <td className="px-6 py-4">{room.category}</td>
+                        <td className="px-6 py-4">
+                          {room.price?.toLocaleString()} 원
+                        </td>
+                        <td className="px-6 py-4">
+                          {dayjs(room.createdAt).format("YYYY-MM-DD HH:mm:ss")}
+                        </td>
+                        <td className="px-6 py-4">
+                          {dayjs(room.updatedAt).format("YYYY-MM-DD HH:mm:ss")}
+                        </td>
+                        <td className="px-6 py-4 min-w-[80px]">
+                          <Link
+                            href={`/rooms/${room.id}`}
+                            className="font-medium text-gray-600 hover:underline"
+                          >
+                            보기
+                          </Link>
+                        </td>
+                        <td className="px-6 py-4 min-w-[80px]">
+                          <Link
+                            href={`/rooms/edit/${room.id}`}
+                            className="font-medium text-gray-600 hover:underline"
+                          >
+                            수정
+                          </Link>
+                        </td>
+                        <td className="px-6 py-4 min-w-[80px]">
+                          <button
+                            type="button"
+                            className="font-medium text-gray-600 hover:underline"
+                            onClick={() => handleDelete(room)}
+                          >
+                            삭제
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+            <div className="w-full touch-none h-1 mb-5" ref={observerRef} />
+          </div>
+        </>
+      )}
+    </>
   );
 }

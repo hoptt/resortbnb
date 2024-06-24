@@ -122,7 +122,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
 
   return (
     <form
-      className="px-4 md:max-w-4xl mx-auto py-8 my-20 flex flex-col gap-8"
+      className="sm:px-4 md:max-w-4xl mx-auto py-8 lg:mt-10 mb-20 flex flex-col gap-8"
       onSubmit={handleSubmit(async (res) => {
         try {
           const imageUrls = await uploadImages(images);
@@ -153,9 +153,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
         }
       })}
     >
-      <h1 className="font-semibold text-lg md:text-2xl text-center">
-        숙소 수정하기
-      </h1>
+      <h1 className="font-semibold text-2xl text-center">숙소 수정하기</h1>
       <div className="flex flex-col gap-2">
         <label htmlFor="title" className="text-lg font-semibold">
           숙소 이름

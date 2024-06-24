@@ -52,7 +52,7 @@ export default function AddressSearch({
           />
           <button
             type="button"
-            className="col-start-3 sm:col-start-4 bg-rose-600 hover:bg-rose-500 py-1.5 px-2 rounded text-white"
+            className="col-start-3 sm:col-start-4 bg-rose-600 hover:bg-rose-500 py-1.5 px-5 rounded text-white"
             onClick={() => setIsOpen((prev) => !prev)}
           >
             주소 검색
