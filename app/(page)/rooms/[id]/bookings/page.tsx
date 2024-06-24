@@ -4,6 +4,7 @@ import { BookingParams, RoomType } from "@/interface";
 import { salePrice } from "@/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function BookingPage({
   params,
@@ -13,10 +14,9 @@ export default async function BookingPage({
   const checkIn = searchParams.checkIn;
   const checkOut = searchParams.checkOut;
   const guestCount = searchParams.guestCount;
-  const totalAmount = searchParams.totalAmount;
   const totalDays = searchParams.totalDays;
   const data: RoomType = await getData(id);
-
+  if (data === null) redirect("/");
   return (
     <div className="my-28 max-w-6xl mx-auto px-4">
       <div className="mt-32">
@@ -71,10 +71,13 @@ export default async function BookingPage({
             <div>
               <h3>총 합계</h3>
               <div className="text-lg font-bold mt-1 text-gray-800">
-                {Number(totalAmount || 0).toLocaleString()} 원
+                {Number(
+                  salePrice(data.price, data.sale) * Number(totalDays || 0)
+                ).toLocaleString()}{" "}
+                원
               </div>
             </div>
-            <SubmitButton title={data.title} />
+            <SubmitButton title={data.title} id={data.id} />
           </div>
         </div>
       </div>

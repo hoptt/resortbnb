@@ -86,7 +86,7 @@ export default async function PaymentSuccess({ searchParams }: ParamsProps) {
         <h3 className="font-semibold text-lg md:text-2xl">결제 일시</h3>
         <div className="rounded-md border-black p-2 border-2 cursor-pointer hover:bg-black/5">
           <p className="text-gray-800 text-sm mt-1">
-            {dayjs(data?.payment?.approvedAt)?.format("YYYY-MM-DD HH:MM:ss")}
+            {dayjs(data?.payment?.approvedAt)?.format("YYYY-MM-DD HH:mm:ss")}
           </p>
         </div>
       </div>

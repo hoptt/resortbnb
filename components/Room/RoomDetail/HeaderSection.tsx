@@ -4,11 +4,10 @@ import { RoomType } from "@/interface";
 import Image from "next/image";
 import { useState } from "react";
 import { AiOutlineUnorderedList } from "react-icons/ai";
+import { CiShare1 } from "react-icons/ci";
 import ImageListModal from "./ImageListModal";
 import LikeButton from "./LikeButton";
 import ShareButton from "./ShareButton";
-import { CiShare1 } from "react-icons/ci";
-import cn from "classnames";
 
 export default function HeaderSection({ data }: { data: RoomType }) {
   const [showImageModal, setShowImageModal] = useState<boolean>(false);
@@ -17,7 +16,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
       <h1 className="text-lg md:text-3xl font-medium px-4">{data?.title}</h1>
       <div className="flex w-full justify-between items-center px-4">
         <a href="#hosting-place" className="underline text-xs md:text-sm mt-2">
-          {data?.address}
+          {data?.base_address}
         </a>
         <div className="flex gap-2 text-xs md:text-sm mt-2">
           <ShareButton data={data}>
@@ -33,9 +32,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
           {data?.images.slice(0, 5)?.map((img, idx) => (
             <div
               key={img}
-              className={cn(
-                `w-full relative gallery__item gallery__item__${data?.images.length}--${idx + 1}`
-              )}
+              className={`w-full relative gallery__item gallery__item__${data?.images.length}--${idx + 1}`}
             >
               <Image
                 src={img}

@@ -2,33 +2,35 @@
 
 import { BLUR_DATA_URL } from "@/constants";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import { RoomApiType, RoomType } from "@/interface";
+import { LikeType, RoomType } from "@/interface";
 import { salePrice } from "@/utils";
-import axios from "axios";
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import cn from "classnames";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, {
-  MouseEventHandler,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { MouseEventHandler, ReactNode, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { CiShare1 } from "react-icons/ci";
-import { useInfiniteQuery } from "react-query";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Loader, LoaderGrid } from "../Loader";
-import { MapButton } from "../Map";
+import { Loader, LoaderGrid } from "../../Loader";
+import { MapButton } from "../../Map";
 import ShareButton from "../RoomDetail/ShareButton";
+import { updateRoom } from "../RoomDetail/_lib/api";
+import { fetchRooms } from "./_lib/api";
+import { filterState } from "@/atom";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 
 export function Main({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -36,20 +38,11 @@ export function Main({ children }: { children: ReactNode }) {
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
   const limit = 24;
-
-  const fetchRooms = async ({ pageParam = 1 }) => {
-    const { data } = await axios(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/rooms?page=${pageParam}`,
-      {
-        params: {
-          limit: pageParam === 1 ? limit - 1 : limit,
-          page: pageParam,
-        },
-      }
-    );
-    return data as RoomApiType;
-  };
-
+  const filterValue = useRecoilValue(filterState);
+  const resetFilter = useResetRecoilState(filterState);
+  const queryKey = !!filterValue.category
+    ? ["rooms", filterValue.category]
+    : ["rooms"];
   const {
     data: rooms,
     isError,
@@ -58,34 +51,43 @@ export function Main({ children }: { children: ReactNode }) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery(["rooms"], fetchRooms, {
+  } = useInfiniteQuery({
+    queryKey,
+    queryFn: ({ pageParam }) =>
+      fetchRooms({ pageParam, category: filterValue.category }),
     getNextPageParam: (lastPage, pages) =>
       lastPage.data?.length >= (lastPage.page === 1 ? limit - 1 : limit)
         ? lastPage.page + 1
         : undefined,
-    refetchOnWindowFocus: false,
+    initialPageParam: 1,
   });
 
-  if (isError) throw new Error("에러 룸");
+  if (isError) throw new Error("데이터를 불러오는중 오류가 발생했습니다");
   useEffect(() => {
     if (isPageEnd && hasNextPage) {
       fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage, isPageEnd]);
 
+  useEffect(() => {
+    resetFilter();
+  }, []);
+
   return (
     <>
-      <div className="mt-14 md:mt-10 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
+      <div className="mt-20 md:mt-14 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
         <GridLayout>
           {rooms && <>{children}</>}
 
           {(rooms?.pages || []).map((page, index) => (
             <React.Fragment key={index}>
-              {page.data.length === 0 && (
-                <div className="mt-5">조회된 숙소 데이터가 없습니다</div>
+              {page.totalCount === 0 && (
+                <div className="mt-5 text-gray-400">
+                  조회된 숙소 데이터가 없습니다
+                </div>
               )}
               {page.data.map((room: RoomType) => (
-                <RoomItem key={room.id} room={room} />
+                <RoomItem key={room.id} room={room} optimisticKey={queryKey} />
               ))}
             </React.Fragment>
           ))}
@@ -100,34 +102,88 @@ export function Main({ children }: { children: ReactNode }) {
   );
 }
 
-export function RoomItem({ room }: { room: RoomType }) {
+export function RoomItem({
+  room,
+  optimisticKey: queryKey,
+}: {
+  room: RoomType;
+  optimisticKey: (string | undefined | {})[];
+}) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [isLike, setIsLike] = useState(false);
+  const isLike =
+    room.likes?.findIndex((a) => a.userId === session?.user.id) !== -1;
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () => updateRoom(room.id),
+    onMutate: async (newTodo) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousRoom =
+        queryClient.getQueryData<InfiniteData<Array<RoomType>>>(queryKey);
+      queryClient.setQueryData<InfiniteData<Array<RoomType>>>(
+        queryKey,
+        (old: any) => {
+          const newData = old?.pages.map((page: { data: RoomType[] }) => ({
+            ...page,
+            data: page.data.map((preRoom: RoomType) => {
+              const isChanged = preRoom.id === room.id;
+              if (isChanged) {
+                const hasLikeValue =
+                  preRoom.likes?.findIndex(
+                    (a) => a.userId === session?.user.id
+                  ) !== -1;
+                if (hasLikeValue) {
+                  return {
+                    ...preRoom,
+                    likes: [],
+                  };
+                } else {
+                  const newLikeValue: LikeType = {
+                    id: 0,
+                    createdAt: "",
+                    userId: session!.user.id,
+                    roomId: room.id,
+                    room,
+                  };
+                  return {
+                    ...preRoom,
+                    likes: [...preRoom.likes!, newLikeValue],
+                  };
+                }
+              } else {
+                return { ...preRoom };
+              }
+            }),
+          }));
+          return {
+            ...old,
+            pages: newData,
+          };
+        }
+      );
+
+      return { previousRoom };
+    },
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(queryKey, context?.previousRoom);
+      toast.error("오류 발생 다시 시도해주세요");
+    },
+    onSettled: (_, err) => {
+      if (!err) toast.success("실제 데이터 반영 완료");
+    },
+  });
+
   const handleLike: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     if (status === "unauthenticated") {
       router.push("/signin", { scroll: false });
       return;
     }
-    const like = await axios.post(`/api/likes`, {
-      roomId: room.id,
-    });
-
-    if (like.status === 201) {
-      toast.success("숙소를 찜했습니다");
-      setIsLike(true);
-    } else {
-      toast.error("찜을 취소하였습니다");
-      setIsLike(false);
-    }
+    mutate();
   };
 
-  useEffect(() => {
-    setIsLike(
-      room.likes?.findIndex((a) => a.userId === session?.user.id) !== -1
-    );
-  }, [room.likes?.length]);
   return (
     <div key={room.id}>
       <Link href={`/rooms/${room.id}`} prefetch={false}>
@@ -153,7 +209,7 @@ export function RoomItem({ room }: { room: RoomType }) {
                 />
               </SwiperSlide>
             ))}
-          {!room.guestPreferences && (
+          {room.guestPreferences && (
             <button
               type="button"
               className="absolute top-3 left-3 z-30 text-sm font-semibold bg-white rounded-full shadow-xl px-3 py-1 hover:bg-gray-200"
@@ -191,7 +247,7 @@ export function RoomItem({ room }: { room: RoomType }) {
           {room.category}
         </span>
         <div className="mt-1 text-gray-400 text-sm" data-cy="room-address">
-          {room.address}
+          {room.base_address}
         </div>
         <div className="mt-1 text-base">
           {room.sale ? (

@@ -1,41 +1,53 @@
-prisma 사용하여 DB 에 쉽게 접근
+# 숙소 플랫폼
 
-dev 환경에서 PrismaClient 를 인스턴스화 해주어서 핫 리로딩 시 매번 PrismaClient 재생성되는 문제 해결
+## 기술 스택
 
-recoil 사용하여 전역 상태 관리
+- **HTML, CSS, TypeScript**
+- **Next.js**: 서버 측 렌더링, 라우팅 등을 위한 React 프레임워크
+- **Prisma**: TypeScript와 Node.js를 위한 데이터베이스 툴킷
+- **Supabase**: 백엔드 서비스의 오픈 소스 Firebase 대안
 
-Kakao Map Api 사용하여 숙소들의 위치를 지도에 표시하고 마커 클릭 시 숙소 상세 정보 나오도록 구현
-맵 컴포넌트 접근 시 리소스 파일 받도록 Dynamic import => 번들 사이즈 ↓
-스크립트 파일은 HTML 이 parsing 된 이후 불러오도록하여 초기 로딩시간 단축
+## 주요 라이브러리
 
-Next auth 로 사용자 인증 구현 ( 구글, 네이버, 카카오 )
-서버측 session, 클라이언트측 jwt
+- **react-hook-form**: 검증 및 로딩 처리가 최적화된 폼 관리
+- **recoil**: 전역 상태 관리 및 persist 로 숙소등록 폼 localstorage 저장
+- **react-query**: 데이터 가져오기 및 캐싱, 무한 스크롤 및 optimistic update (좋아요 기능) 구현
 
-토스 페이먼츠 결제 연동
-공식 테스트키 사용으로 인한 영수증 출력 불가
+## 사용된 도구
 
-React-hook-form 사용하여 숙소등록 구현
-Recoil-persist 로 숙소등록 폼에서 항상 상태 유지되도록 구현
+- **Storybook**: 재사용할 컴포넌트 정의 chromatic 으로 storybook 따로 배포 https://6662b32c0b44f934b72785fe-mpkysrxxss.chromatic.com/
+- **Cypress**: 숙소 필터 검색 부분 엔드 투 엔드 테스트
+- **next-bundle-analyze**: 번들 크기 분석 및 tree-shaking 체크
 
-Firebase storage 에 파일 저장
+## 이미지 저장소
 
-cypress 사용하여 필터 동작 테스트
+- **Firebase Storage**
 
-next-bundle-analyze 사용하여 불필요한 번들 체크
-대표적으로 tree-shaking
+## 지도
 
-kakao map 부분은 lazy-loading 적용하여 맵에 접속했을때에 리소스 파일 받아 초기 로딩은 빠르게 적용
+- **Kakao Map API**: 숙소 위치를 지도에 표시하고 상세 정보를 제공하기 위해 사용
+  - 초기 번들 크기 감소를 위해 맵 컴포넌트를 동적 임포트 (Dynamic Import)
+  - HTML 파싱 후 스크립트 파일 로드하여 사용자 경험 향상 및 초기 렌더링 시간 단축
 
-나의 숙소 관리에 검색 부분 debounce 처리하여 최적화
+## 결제 연동
 
-storybook 이용하여 디자인 시스템 관리
-chromatic 으로 storybook 따로 배포
-https://6662b32c0b44f934b72785fe-mpkysrxxss.chromatic.com/
+- **Toss Payment**: Toss Payments를 이용한 결제 게이트웨이 연동
 
-Parallel routes 와 Intercepting routes 이용하여 auth 모달창 구현
-~/signin 주소를 치고 들어가면 페이지 형식의 auth 가 나오고~
-~router 혹은 link 로 /signin 주소로 들어가면 모달형식의 auth 가 등장~
-주소로 직접 접근 시 redirect 메인페이지로 이동하도록 구현
-유지보수와 사용자 경험을 향상시킨 auth 동작을 구현
+## 인증
 
-기간 한정 할인 혜택 이벤트의 페이지는 정적(SSG)페이지 형식으로 구현
+- **next-auth**: Google, Naver, Kakao 인증 제공
+
+## 진행 중 발생한 문제들
+
+- **PrismaClient 핫 리로딩**: dev 환경에서 PrismaClient 를 인스턴스화 하여 핫 리로딩 시 매번 PrismaClient 재생성되는 문제 해결
+
+## 최적화 작업
+
+- **Next.js Image 컴포넌트**: 이미지 로딩 최적화 및 캐싱 처리, CLS 방지를 위한 placeholder 및 blurDataURL 사용
+- **Next.js Font 최적화**: 브라우저에서 font 파일을 따로 요청하지 않고, 초기 렌더링 시에 이미 로드된 폰트 사용. size-adjust 적용되어있어 CLS 방지
+- **검색 기능 최적화**: 최적화를 위해 검색 기능에 Debounce 적용
+- **정적 사이트 생성 (SSG)**: 기간 한정 할인 이벤트 컴포넌트를 정적 페이지로 구현하여 성능과 SEO 개선
+
+## 사용자 경험 개선
+
+- **Parallel routes 및 Intercepting routes**: 유지보수와 사용자 경험을 향상시킨 auth 모달창 구현

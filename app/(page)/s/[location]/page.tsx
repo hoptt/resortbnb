@@ -1,4 +1,4 @@
-import SearchRoom from "@/components/RoomList/SearchRoom";
+import SearchRoom from "@/components/Room/RoomList/SearchRoom";
 type Props = {
   params: {
     location: string;

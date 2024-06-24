@@ -59,7 +59,8 @@ export interface RoomType {
   images: string[];
   imageKeys?: string[];
   title: string;
-  address: string;
+  base_address: string;
+  detailed_address?: string;
   desc?: string;
   bedroomDesc?: string;
   price: number;
@@ -127,7 +128,6 @@ export interface BookingParams {
     checkIn: string;
     checkOut: string;
     guestCount: string;
-    totalAmount: string;
     totalDays: string;
   };
 }
@@ -141,13 +141,24 @@ export interface BookingType {
   guestCount: number;
   totalAmount: number;
   totalDays: number;
+  dayPrice: number;
   status: "SUCCESS" | "CANCEL";
   discounted?: number;
   createdAt: string;
   updatedAt: string;
   room: RoomType;
   user: UserType;
+  events?: EventsType;
   payments?: PaymentType[];
+}
+
+export interface EventsType {
+  id: number;
+  title: string;
+  term: string;
+  createdAt: string;
+  updatedAt: string;
+  type: string;
 }
 
 export enum PaymentStatus {
@@ -180,7 +191,8 @@ interface RoomFormType {
   images: string[];
   imageKeys?: string[];
   title: string;
-  address: string;
+  base_address: string;
+  detailed_address: string;
   desc: string;
   bedroomDesc: string;
   price: number;

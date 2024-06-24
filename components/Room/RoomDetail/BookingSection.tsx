@@ -24,9 +24,7 @@ export default function BookingSection({ data }: { data: RoomType }) {
       router.push(
         `/rooms/${data.id}/bookings?checkIn=${
           filterValue.checkIn || dayjs().format("YYYY-MM-DD")
-        }&checkOut=${
-          filterValue.checkOut || dayjs().format("YYYY-MM-DD")
-        }&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${dayCount}&discounted=${data.sale}`
+        }&checkOut=${filterValue.checkOut || dayjs().format("YYYY-MM-DD")}&guestCount=${guestCount}&totalDays=${dayCount}`
       );
     } else {
       router.push("/signin", { scroll: false });
@@ -78,9 +76,6 @@ export default function BookingSection({ data }: { data: RoomType }) {
                 <span className=" text-gray-500">/박</span>
               </div>
             )}
-            {/* <span className="font-semibold text-lg md:text-xl text-black">
-              {salePrice(data.price, data.sale).toLocaleString()} 원
-            </span>{" "} */}
           </div>
         </div>
         <form className="mt-2">

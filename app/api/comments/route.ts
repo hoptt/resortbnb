@@ -1,6 +1,6 @@
 import prisma from "@/db";
+import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -10,7 +10,7 @@ export async function GET(req: Request) {
   const page = searchParams.get("page") as string;
   const my = searchParams.get("my") as string;
 
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
 
   const count = await prisma.comment.count({
     where: {
@@ -59,7 +59,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
   const formData = await req.json();
 
   const { roomId, body } = formData;

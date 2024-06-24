@@ -14,6 +14,7 @@ export default async function BookingPage({
   const id = params.id;
   const booking: BookingType = await getData(id);
   const canRefund = dayjs(booking?.checkIn).diff(dayjs(), "days") > 10;
+
   return (
     <div className="max-w-5xl mx-auto px-4 pt-10 pb-20">
       <h1 className="text-xl md:text-2xl font-semibold">예약 상세내역</h1>
@@ -32,10 +33,7 @@ export default async function BookingPage({
             <h1 className="text-sm">{booking?.room?.title}</h1>
             <p className="text-xs text-gray-500">
               {booking?.room?.category} |{" "}
-              {salePrice(
-                booking?.room?.price,
-                booking.discounted
-              ).toLocaleString()}
+              {salePrice(booking.dayPrice, booking.discounted).toLocaleString()}
             </p>
             <p className="text-xs text-gray-500">
               후기 {booking?.room?.comments?.length || 0}개
@@ -62,20 +60,32 @@ export default async function BookingPage({
             <h3 className="font-bold">숙박 일정</h3>
             <div className="text-gray-900">{booking?.totalDays}박</div>
           </div>
+          {booking?.discounted && (
+            <div className="flex justify-between items-center">
+              <h3 className="font-bold">할인 정보</h3>
+              <div className="text-rose-600">{booking?.events?.title}</div>
+            </div>
+          )}
           <div className="flex justify-between items-center">
             <h3 className="font-bold">총 금액</h3>
             <div className="text-gray-900">
-              {booking?.discounted && (
+              {booking?.discounted ? (
                 <>
                   <span className="text-rose-600">{booking.discounted}%</span>
                   <span className="text-gray-300 decoration-slate-300 line-through mx-2">
-                    {(
-                      booking?.room.price * booking?.totalDays
-                    ).toLocaleString()}
+                    {booking?.totalAmount.toLocaleString()}
+                  </span>
+                  <span>
+                    {salePrice(
+                      booking?.totalAmount,
+                      booking?.discounted
+                    ).toLocaleString()}{" "}
+                    원
                   </span>
                 </>
+              ) : (
+                <span>{booking?.totalAmount.toLocaleString()} 원</span>
               )}
-              <span>{booking?.totalAmount.toLocaleString()} 원</span>
             </div>
           </div>
         </section>
@@ -93,7 +103,7 @@ export default async function BookingPage({
             >
               <div className="flex flex-col gap-6 pb-4 pt-2">
                 <h3 className="font-semibold text-lg md:text-xl">주문 내역</h3>
-                <div className="rounded-md border-black p-2 border-2 cursor-pointer hover:bg-black/5">
+                <div className="rounded-md border-black p-2 border-2 hover:bg-black/5">
                   <h3 className="font-semibold">주문</h3>
                   <p className="text-gray-800 text-sm mt-1">
                     {payment?.orderName}
@@ -102,21 +112,21 @@ export default async function BookingPage({
               </div>
               <div className="flex flex-col gap-6 pb-4 pt-2">
                 <h3 className="font-semibold text-lg md:text-xl">결제 내역</h3>
-                <div className="rounded-md border-black p-2 border-2 cursor-pointer hover:bg-black/5">
+                <div className="rounded-md border-black p-2 border-2 hover:bg-black/5">
                   <h3 className="font-semibold">결제 수단</h3>
                   <p className="text-gray-800 text-sm mt-1">
                     {payment?.method}
                   </p>
                 </div>
-                <div className="rounded-md border-black p-2 border-2 cursor-pointer hover:bg-black/5">
+                <div className="rounded-md border-black p-2 border-2 hover:bg-black/5">
                   <h3 className="font-semibold">결제 상태</h3>
                   <p className="text-gray-800 text-sm mt-1">
                     {payment?.status}
                   </p>
-                  <h3 className="font-semibold mt-2">상점 아이디 (MID)</h3>
+                  {/* <h3 className="font-semibold mt-2">상점 아이디 (MID)</h3>
                   <p className="text-gray-800 text-sm mt-1">
                     {payment?.mId || "-"}
-                  </p>
+                  </p> */}
                   <h3 className="font-semibold mt-2">카드 정보</h3>
                   <p className="text-gray-800 text-sm mt-1">
                     {payment?.cardNumber || "-"}
@@ -125,7 +135,7 @@ export default async function BookingPage({
               </div>
               <div className="flex flex-col gap-6 pb-4 pt-2">
                 <h3 className="font-semibold text-lg md:text-xl">결제 금액</h3>
-                <div className="rounded-md border-black p-2 border-2 cursor-pointer hover:bg-black/5">
+                <div className="rounded-md border-black p-2 border-2 hover:bg-black/5">
                   <p className="text-gray-800 text-sm mt-1">
                     {payment?.amount?.toLocaleString()}
                   </p>
@@ -133,9 +143,9 @@ export default async function BookingPage({
               </div>
               <div className="flex flex-col gap-6 pb-4 pt-2">
                 <h3 className="font-semibold text-lg md:text-xl">결제 일시</h3>
-                <div className="rounded-md border-black p-2 border-2 cursor-pointer hover:bg-black/5">
+                <div className="rounded-md border-black p-2 border-2 hover:bg-black/5">
                   <p className="text-gray-800 text-sm mt-1">
-                    {dayjs(payment?.approvedAt)?.format("YYYY-MM-DD HH:MM:ss")}
+                    {dayjs(payment?.approvedAt)?.format("YYYY-MM-DD HH:mm:ss")}
                   </p>
                 </div>
               </div>

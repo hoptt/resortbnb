@@ -9,7 +9,7 @@ type Props = {
 export default function SearchMap({ lat, lng }: Props) {
   return (
     <>
-      <Map fallback={<MapLoading />} lat={lat} lng={lng} />
+      <Map fallback={<MapLoading className="h-screen" />} lat={lat} lng={lng} />
       <SelectedRoom />
     </>
   );

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import prisma from "@/db";
+import { authOptions } from "@/utils/authOptions";
 interface PaymentProps {
   bookingId: string;
   amount: string;
@@ -47,7 +47,7 @@ interface PaymentApproveProps {
 
 export async function POST(req: Request) {
   // 요청 데이터 생성
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
   const formData = await req.json();
 
   const { bookingId, amount, status, orderId, orderName }: PaymentProps =

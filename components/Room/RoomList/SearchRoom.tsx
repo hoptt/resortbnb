@@ -1,16 +1,16 @@
 "use client";
 import { filterState } from "@/atom";
 import { Loader, LoaderGrid, MapLoading } from "@/components/Loader";
-import { GridLayout, RoomItem } from "@/components/RoomList";
+import { GridLayout, RoomItem } from "@/components/Room/RoomList";
 import { DEFAULT_LAT, DEFAULT_LNG, GEO_LOCATION_DATA } from "@/constants";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { RoomType } from "@/interface";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import React, { useEffect, useRef } from "react";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
-import CategoryList from "../CategoryList";
+import CategoryList from "../../CategoryList";
 type Props = {
   params: {
     location: string;
@@ -19,7 +19,7 @@ type Props = {
 
 const DyanmicSearchMap = dynamic(() => import("@/components/Map/SearchMap"), {
   ssr: false,
-  loading: () => <MapLoading />,
+  loading: () => <MapLoading className="h-screen" />,
 });
 
 export default function SearchRoom({ params }: Props) {
@@ -36,9 +36,10 @@ export default function SearchRoom({ params }: Props) {
     category: filterValue.category,
     filter: true,
   };
-  const fetchRooms = async ({ pageParam = 1 }) => {
+  const queryKey = ["roomsearched", filterParams];
+  const fetchSearchedRooms = async ({ pageParam = 1 }) => {
     const { data } = await axios(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/rooms?page=${pageParam}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/rooms`,
       {
         params: {
           limit,
@@ -59,13 +60,15 @@ export default function SearchRoom({ params }: Props) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery(["roomsa", filterParams], fetchRooms, {
+  } = useInfiniteQuery({
+    queryKey,
+    queryFn: fetchSearchedRooms,
     getNextPageParam: (lastPage, pages) =>
       lastPage.data?.length >= limit ? lastPage.page + 1 : undefined,
-    refetchOnWindowFocus: false,
+    initialPageParam: 1,
   });
 
-  if (isError) throw new Error("에러 룸");
+  if (isError) throw new Error("데이터를 불러오는중 오류가 발생했습니다");
   useEffect(() => {
     if (isPageEnd && hasNextPage) {
       fetchNextPage();
@@ -82,16 +85,22 @@ export default function SearchRoom({ params }: Props) {
   return (
     <>
       <CategoryList />
-      <div className="flex gap-8 mt-14 md:mt-10 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
+      <div className="flex gap-8 mt-20 md:mt-14 lg:mt-20 mb-20 sm:px-4 md:px-8 lg:px-16">
         <div className="flex flex-col w-full">
           <GridLayout isSearch={true}>
             {(rooms?.pages || []).map((page, index) => (
               <React.Fragment key={index}>
-                {page.data.length === 0 && (
-                  <div className="mt-5">조회된 숙소 데이터가 없습니다</div>
+                {page.totalCount === 0 && (
+                  <div className="mt-5 text-gray-400">
+                    조회된 숙소 데이터가 없습니다
+                  </div>
                 )}
                 {page.data.map((room: RoomType) => (
-                  <RoomItem key={room.id} room={room} />
+                  <RoomItem
+                    key={room.id}
+                    room={room}
+                    optimisticKey={queryKey}
+                  />
                 ))}
               </React.Fragment>
             ))}

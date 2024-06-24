@@ -6,8 +6,9 @@ import { RoomType } from "@/interface";
 import axios from "axios";
 import Script from "next/script";
 import { BsMap } from "react-icons/bs";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSetRecoilState } from "recoil";
+import { salePrice } from "@/utils";
 
 declare global {
   interface Window {
@@ -33,7 +34,10 @@ export default function Map({
     return data as RoomType[];
   };
 
-  const { data: rooms, isSuccess } = useQuery("map-rooms", fetchRooms);
+  const { data: rooms, isSuccess } = useQuery({
+    queryKey: ["map-rooms"],
+    queryFn: fetchRooms,
+  });
 
   const loadKakaoMap = () => {
     window.kakao.maps.load(() => {
@@ -75,7 +79,7 @@ export default function Map({
         marker.setMap(map);
 
         // custom overlay 설정
-        const content = `<div class="custom_overlay">${room.price.toLocaleString()}원</div>`;
+        const content = `<div class="custom_overlay">${salePrice(room.price, room.sale).toLocaleString()}원</div>`;
         // custom overlay 생성
         const customOverlay = new window.kakao.maps.CustomOverlay({
           position: markerPosition,

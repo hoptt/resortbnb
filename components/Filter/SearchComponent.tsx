@@ -10,6 +10,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { RxDividerVertical } from "react-icons/rx";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SearchFilter } from ".";
+import { checkPath } from "@/utils";
 
 type Props = {
   showFilter: boolean;
@@ -38,7 +39,7 @@ export default function SearchComponent({
         if (window.scrollY > 10) {
           setShowFilter(false);
         } else {
-          if (!FILTER_PATH.includes(pathname)) {
+          if (!checkPath(pathname)) {
             setShowFilter(false);
           }
         }
@@ -58,10 +59,7 @@ export default function SearchComponent({
         setShowFilter(false);
       } else {
         setDetailFilter(null);
-        if (
-          window.innerWidth > DESKTOP_WIDTH &&
-          FILTER_PATH.includes(pathname)
-        ) {
+        if (window.innerWidth > DESKTOP_WIDTH && checkPath(pathname)) {
           setShowFilter(true);
         }
       }
@@ -76,11 +74,16 @@ export default function SearchComponent({
 
   useEffect(() => {
     const resizeHandler = () => {
-      if (window.innerWidth > DESKTOP_WIDTH) {
-        setShowFilter(true);
-      } else {
+      if (window.scrollY > 10) {
         setShowFilter(false);
-        setDetailFilter(null);
+      } else {
+        if (window.innerWidth > DESKTOP_WIDTH) {
+          if (checkPath(pathname)) {
+            setShowFilter(true);
+          }
+        } else {
+          setShowFilter(false);
+        }
       }
     };
 
@@ -88,7 +91,7 @@ export default function SearchComponent({
     return () => {
       window.removeEventListener("resize", resizeHandler);
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!!showFilter && window.scrollY > 10) {
@@ -266,15 +269,15 @@ export default function SearchComponent({
         >
           <div className="flex justify-center gap-1 cursor-pointer">
             <div className="my-auto font-semibold text-sm">어디든지</div>
-            <RxDividerVertical className="text-gray-200 my-auto text-2xl" />
+            <RxDividerVertical className="text-gray-200 my-auto" />
             <div className="my-auto font-semibold text-sm">언제든</div>
-            <RxDividerVertical className="text-gray-200 my-auto text-2xl" />
+            <RxDividerVertical className="text-gray-200 my-auto" />
             <div className="my-auto font-semibold text-sm">게스트</div>
           </div>
           <div
             id="filter-open-btn"
             data-cy="filter-open-btn"
-            className="bg-rose-500 text-white flex items-center rounded-full w-8 h-8"
+            className="bg-rose-500 text-white flex items-center rounded-full w-7 h-7 sm:w-8 sm:h-8"
           >
             <AiOutlineSearch className="text-lg m-auto font-semibold" />
           </div>

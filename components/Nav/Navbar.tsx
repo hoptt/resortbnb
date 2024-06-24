@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { filterState } from "@/atom";
-import { DESKTOP_WIDTH, FILTER_PATH, FormUrl } from "@/constants";
+import { filterState, prevPathState } from "@/atom";
+import { DESKTOP_WIDTH, FormUrl } from "@/constants";
+import { checkPath } from "@/utils";
 import cn from "classnames";
 import "dayjs/locale/ko";
 import { signOut, useSession } from "next-auth/react";
@@ -53,16 +54,18 @@ export default function Navbar() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
   const pathname = usePathname();
+  const prevPath = useRecoilValue(prevPathState);
+  const nextUrl = decodeURIComponent(prevPath || "/");
 
   const [showFilter, setShowFilter] = useState<boolean>(false);
-
   useLayoutEffect(() => {
     setShowFilter(() => {
       if (window.innerWidth > DESKTOP_WIDTH) {
         if (window.scrollY > 10) {
           return false;
         } else {
-          if (FILTER_PATH.includes(pathname)) {
+          if (!checkPath(nextUrl)) return false;
+          if (checkPath(pathname)) {
             return true;
           } else {
             return false;
@@ -72,7 +75,7 @@ export default function Navbar() {
         return false;
       }
     });
-  }, [pathname]);
+  }, [pathname, nextUrl]);
 
   const { status, data: session } = useSession();
   const filterValue = useRecoilValue(filterState);
@@ -81,16 +84,19 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "h-20 z-[20] border border-b-gray w-full shadow-sm p-4 sm:px-10 flex justify-between items-start fixed top-0 bg-white",
+        "h-20 z-[20] gap-3 border border-b-gray w-full shadow-sm p-4 sm:px-10 flex justify-between items-center sm:items-start fixed top-0 bg-white",
         {
           "!h-44": showFilter,
         }
       )}
     >
-      <div className="sm:grow sm:basis-0 font-semibold text-lg sm:text-xl text-rose-500 sm:flex sm:gap-2">
-        <MdModeOfTravel className="text-2xl sm:text-4xl" />
-        <Link href="/" className="my-auto block">
-          Resort bnb
+      <div className="lg:grow lg:basis-0 font-semibold text-lg text-rose-500">
+        <Link
+          href="/"
+          className="flex-col lg:flex-row sm:flex lg:gap-2 max-w-fit"
+        >
+          <MdModeOfTravel className="text-2xl lg:text-4xl" />
+          <span className="my-auto hidden sm:block lg:text-xl">Resort bnb</span>
         </Link>
       </div>
 
@@ -100,37 +106,39 @@ export default function Navbar() {
         showFilter={showFilter}
       />
 
-      <div className="grow basis-0 hidden md:flex gap-4 align-middle relative justify-end">
-        {status === "authenticated" ? (
-          <Link
-            href={FormUrl.CATEGORY}
-            className="font-semibold text-sm my-auto px-4 py-3 rounded-full hover:bg-gray-50"
-          >
-            당신의 공간을 등록해주세요
-          </Link>
-        ) : (
-          <Link
-            href={`/signin`}
-            scroll={false}
-            className="font-semibold text-sm my-auto px-4 py-3 rounded-full hover:bg-gray-50"
-          >
-            로그인 해주세요
-          </Link>
-        )}
-
+      <div className="lg:grow basis-0 lg:flex gap-4 align-middle relative justify-end items-center">
+        <div className="hidden lg:block">
+          {status === "authenticated" ? (
+            <Link
+              href={FormUrl.CATEGORY}
+              className="font-semibold text-sm my-auto px-4 py-3 rounded-full hover:bg-gray-50"
+            >
+              당신의 공간을 등록해주세요
+            </Link>
+          ) : (
+            <Link
+              href={`/signin`}
+              scroll={false}
+              className="font-semibold text-sm my-auto px-4 py-3 rounded-full hover:bg-gray-50"
+            >
+              로그인 해주세요
+            </Link>
+          )}
+        </div>
         <button
           id="menu-btn"
           type="button"
           onClick={() => setShowMenu((prev) => !prev)}
-          className="flex gap-3 rounded-full border border-gray-20 shadow-sm px-4 py-3 my-auto hover:shadow-lg"
+          className="w-[40px] sm:w-[80px] flex gap-3 rounded-full border border-gray-20 lg:shadow-sm p-2 sm:px-4 sm:py-3 my-auto hover:shadow-lg ms-auto sm:ms-0"
         >
-          <AiOutlineMenu />
+          <AiOutlineMenu className="hidden sm:block" />
 
           {status === "authenticated" && session?.user?.image ? (
             <img
               src={session?.user?.image}
+              referrerPolicy="no-referrer"
               alt="profile img"
-              className="rounded-full w-4 h-4 my-auto"
+              className="rounded-full sm:w-4 sm:h-4 my-auto"
             />
           ) : (
             <AiOutlineUser />

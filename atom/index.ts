@@ -46,7 +46,8 @@ export const roomFormState = atom<RoomFormOptionalType | null>({
   default: {
     images: [],
     title: "",
-    address: "",
+    base_address: "",
+    detailed_address: "",
     desc: "",
     bedroomDesc: "",
     price: 0,

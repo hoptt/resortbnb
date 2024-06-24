@@ -110,7 +110,6 @@ export default function ShareButton({
                       src={data?.images?.[0]}
                       width={60}
                       height={60}
-                      className="mx-auto"
                       placeholder="blur"
                       blurDataURL={BLUR_DATA_URL}
                     />
@@ -120,7 +119,7 @@ export default function ShareButton({
                       <div className="text-gray-600">·</div>
                       <div className="text-gray-800">{data?.category}</div>
                       <div className="text-gray-600">·</div>
-                      <div className="text-gray-800">{data?.address}</div>
+                      <div className="text-gray-800">{data?.base_address}</div>
                     </div>
                   </div>
                   <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

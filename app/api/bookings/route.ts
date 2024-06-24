@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth/[...nextauth]/route";
 import prisma from "@/db";
 import { NextResponse } from "next/server";
+import { authOptions } from "@/utils/authOptions";
 
 interface BookingProps {
   roomId: string;
@@ -11,6 +11,8 @@ interface BookingProps {
   totalAmount: string;
   totalDays: string;
   discounted?: string;
+  dayPrice: string;
+  eventId?: string;
   status: "SUCCESS" | "CANCEL" | "PENDING" | "FAILED";
 }
 
@@ -24,7 +26,7 @@ export async function GET(req: Request) {
   const id = searchParams.get("id") as string;
   const page = searchParams.get("page") as string;
   const limit = searchParams.get("limit") as string;
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
 
   if (id) {
     const booking = await prisma.booking.findFirst({
@@ -35,6 +37,7 @@ export async function GET(req: Request) {
         user: true,
         room: true,
         payments: true,
+        events: true,
       },
     });
     return NextResponse.json(booking, { status: 200 });
@@ -53,6 +56,9 @@ export async function GET(req: Request) {
       orderBy: { updatedAt: "desc" },
       where: {
         userId: session?.user.id,
+        NOT: {
+          status: "PENDING",
+        },
       },
       take: parseInt(limit),
       skip: skipPage * parseInt(limit),
@@ -63,14 +69,19 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json(
-      { page: parseInt(page), data: bookings, totalPage: count },
+      {
+        page: parseInt(page),
+        data: bookings,
+        totalCount: count,
+        totalPage: Math.ceil(count / parseInt(limit)),
+      },
       { status: 200 }
     );
   }
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
   const formData = await req.json();
 
   const {
@@ -81,7 +92,9 @@ export async function POST(req: Request) {
     totalAmount,
     totalDays,
     discounted,
+    eventId,
     status,
+    dayPrice,
   }: BookingProps = formData;
 
   if (!session?.user) {
@@ -95,8 +108,10 @@ export async function POST(req: Request) {
       checkIn: new Date(checkIn),
       checkOut: new Date(checkOut),
       guestCount: parseInt(guestCount),
+      dayPrice: parseInt(dayPrice),
       totalAmount: parseInt(totalAmount),
       totalDays: parseInt(totalDays),
+      eventId: parseInt(eventId!) || null,
       discounted: parseInt(discounted!) || null,
       status,
     },
@@ -108,7 +123,7 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
   const formData = await req.json();
   const { id, status }: RefundProps = formData;
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     return NextResponse.json({ error: "unauthorized user" }, { status: 401 });

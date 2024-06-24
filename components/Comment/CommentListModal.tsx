@@ -10,13 +10,12 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
+import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import React, { Fragment, useEffect, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useInfiniteQuery } from "react-query";
-import dayjs from "dayjs";
-import "dayjs/locale/ko";
 
 type Props = {
   isOpen: boolean;
@@ -47,12 +46,13 @@ export default function CommentListModal({
   const {
     data: comments,
     fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
     hasNextPage,
-  } = useInfiniteQuery(["room-comment-infinite", roomId], fetchComments, {
+  } = useInfiniteQuery({
+    queryKey: ["room-comment-infinite", roomId],
+    queryFn: fetchComments,
     getNextPageParam: (lastPage, pages) =>
       lastPage?.data?.length > 0 ? (lastPage?.page || 0) + 1 : undefined,
+    initialPageParam: 1,
   });
 
   useEffect(() => {
@@ -102,8 +102,8 @@ export default function CommentListModal({
                   <div className="mt-8 flex flex-col gap-8 max-w-lg mb-5">
                     {comments?.pages?.map((page, index) => (
                       <React.Fragment key={index}>
-                        {page.data.length === 0 && (
-                          <div className="mt-5">
+                        {page.totalCount === 0 && (
+                          <div className="mt-5 text-gray-400">
                             조회된 후기 데이터가 없습니다
                           </div>
                         )}
@@ -123,12 +123,12 @@ export default function CommentListModal({
                                 </h1>
                                 <div className="text-gray-500 text-xs mt-1">
                                   {dayjs(comment?.createdAt).format(
-                                    "YYYY-MM-DD HH:MM:ss"
+                                    "YYYY-MM-DD HH:mm:ss"
                                   )}
                                 </div>
                               </div>
                             </div>
-                            <div className="max-w-lg text-gray-600 ml-2">
+                            <div className="max-w-lg text-gray-600 ml-2 whitespace-pre-line break-words">
                               {comment?.body}
                             </div>
                           </div>

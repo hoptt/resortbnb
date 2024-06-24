@@ -1,7 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { RoomFeatureProps } from "@/app/(page)/rooms/(form)/register/feature/page";
-import { CATEGORY_DATA, FeatureFormField, RoomEditField } from "@/constants";
+import {
+  CATEGORY_DATA,
+  FeatureFormField,
+  RoomEditField,
+  RoomFeatureProps,
+} from "@/constants";
 import { RoomFormOptionalType, RoomType } from "@/interface";
 import { storage } from "@/utils/firebaseApp";
 import axios from "axios";
@@ -268,6 +273,11 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
         </div>
       </div>
       <AddressSearch register={register} errors={errors} setValue={setValue} />
+      <input
+        placeholder="상세 주소를 입력해주세요"
+        {...register("detailed_address")}
+        className="block w-full outline-none px-4 py-2 rounded-lg border-2 focus:border-black placeholder:text-gray-400"
+      />
       <div className="flex flex-col gap-2">
         <div className="col-span-full">
           <label
@@ -306,6 +316,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
           images?.map((image, idx) => (
             <img
               key={idx}
+              alt="숙소 이미지"
               src={image}
               width={100}
               height={100}

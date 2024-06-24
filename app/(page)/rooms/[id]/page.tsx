@@ -1,30 +1,33 @@
-import { Loader } from "@/components/Loader";
-import FeatureSection from "@/components/RoomDetail/FeatureSection";
-import HeaderSection from "@/components/RoomDetail/HeaderSection";
+import { Comment } from "@/components/Comment";
+import { LoaderRoomDetail, MapLoading } from "@/components/Loader";
+import FeatureSection from "@/components/Room/RoomDetail/FeatureSection";
+import HeaderSection from "@/components/Room/RoomDetail/HeaderSection";
 import type { ParamsProps, RoomType } from "@/interface";
 import type { Metadata, ResolvingMetadata } from "next";
 import dynamic from "next/dynamic";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
+const MapSection = dynamic(
+  () => import("@/components/Room/RoomDetail/MapSection"),
+  {
+    loading: () => <MapLoading className="h-[400px] mt-8" />,
+    ssr: false,
+  }
+);
 export default async function RoomPage({ params }: ParamsProps) {
   const { id } = params;
   const data: RoomType = await getData(id);
-  const Comment = dynamic(() => import("@/components/Comment"), {
-    loading: () => <Loader />,
-  });
 
-  const MapSection = dynamic(
-    () => import("@/components/RoomDetail/MapSection"),
-    {
-      loading: () => <Loader />,
-      ssr: false,
-    }
-  );
+  if (data === null) redirect("/");
   return (
     <div className="mb-20 max-w-6xl mx-auto">
-      <HeaderSection data={data} />
-      <FeatureSection data={data} />
-      <Comment room={data} />
-      <MapSection data={data} />
+      <Suspense fallback={<LoaderRoomDetail />}>
+        <HeaderSection data={data} />
+        <FeatureSection data={data} />
+        <Comment room={data} />
+        <MapSection data={data} />
+      </Suspense>
     </div>
   );
 }

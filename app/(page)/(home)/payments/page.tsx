@@ -5,7 +5,7 @@ import {
   loadPaymentWidget,
 } from "@tosspayments/payment-widget-sdk";
 import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { useAsync } from "react-use";
@@ -16,7 +16,6 @@ export default function PaymentPage() {
     PaymentWidgetInstance["renderPaymentMethods"]
   > | null>(null);
   const { data: session } = useSession();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const price = searchParams.get("totalAmount") || "0";
   const customerKey = searchParams.get("customerKey") || uuidv4();

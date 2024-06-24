@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import prisma from "@/db";
+import { authOptions } from "@/utils/authOptions";
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     return NextResponse.json(
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
   const formData = await req.json();
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     return NextResponse.json(

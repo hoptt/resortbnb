@@ -1,7 +1,7 @@
 "use client";
 import { RoomType } from "@/interface";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useLikeButton } from "./useLikeButton";
+import { useLikeButton } from "./_lib/useLikeButton";
 
 export default function LikeButton({ room }: { room: RoomType }) {
   const { toggleLike, myLikeCheck } = useLikeButton(room);

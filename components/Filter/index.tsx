@@ -64,9 +64,10 @@ const LocationFilter = () => {
             type="button"
             data-cy={`filter-location-${city}`}
             className={cn(
-              "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500",
+              "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500 focus:text-white",
               {
-                "bg-rose-600 text-white": filterValue.location === city,
+                "bg-rose-600 text-white hover:bg-rose-500":
+                  filterValue.location === city,
               }
             )}
             onClick={() => {
@@ -79,9 +80,10 @@ const LocationFilter = () => {
         ))}
         <button
           className={cn(
-            "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500",
+            "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500 focus:text-white",
             {
-              "bg-rose-600 text-white": filterValue.location === "",
+              "bg-rose-600 text-white hover:bg-rose-500":
+                filterValue.location === "",
             }
           )}
           onClick={() => {

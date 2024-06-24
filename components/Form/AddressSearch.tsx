@@ -17,6 +17,7 @@ export default function AddressSearch({
   setValue,
 }: AddressProps) {
   const [isOpen, setIsOpen] = useState(false);
+
   const handleComplete = (data: any) => {
     let fullAddress = data.address;
     let extraAddress = "";
@@ -32,32 +33,32 @@ export default function AddressSearch({
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
-    setValue("address", fullAddress);
+    setValue("base_address", fullAddress);
     setIsOpen(false);
   };
   return (
     <>
       <div className="flex flex-col gap-2">
-        <label htmlFor="address" className="text-lg font-semibold">
+        <label htmlFor="base_address" className="text-lg font-semibold">
           숙소 위치
         </label>
-        <div className="grid md:grid-cols-4 gap-6 ">
+        <div className="grid md:grid-cols-4 gap-3 md:gap-6">
           <input
             readOnly
             placeholder="주소를 입력해주세요"
-            {...register("address", { required: true })}
+            {...register("base_address", { required: true })}
             className="col-span-3 block w-full outline-none px-4 py-2 rounded-lg border-2 focus:border-black read-only:bg-gray-300 read-only:text-gray-700 placeholder:text-gray-400
           "
           />
           <button
             type="button"
-            className="bg-rose-600 hover:bg-rose-500 py-1.5 px-2 rounded text-white"
+            className="col-start-3 sm:col-start-4 bg-rose-600 hover:bg-rose-500 py-1.5 px-2 rounded text-white"
             onClick={() => setIsOpen((prev) => !prev)}
           >
             주소 검색
           </button>
         </div>
-        {errors.address && errors.address.type === "required" && (
+        {errors.base_address && errors.base_address.type === "required" && (
           <span className="text-red-600 text-sm">숙소 위치를 입력해주세요</span>
         )}
       </div>

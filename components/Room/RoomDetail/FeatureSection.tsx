@@ -14,6 +14,7 @@ import { MdOutlineLocalLaundryService } from "react-icons/md";
 import { PiBathtub, PiMountainsDuotone } from "react-icons/pi";
 import BookingSection from "./BookingSection";
 import CalendarSection from "./CalendarSection";
+import RoomDesc from "./RoomDesc";
 
 export default function FeatureSection({ data }: { data: RoomType }) {
   return (
@@ -71,15 +72,12 @@ export default function FeatureSection({ data }: { data: RoomType }) {
             </div>
           </div>
         </div>
-        <div className="py-8 px-4 border-b border-gray-300 leading-8 text-gray-800 whitespace-pre-wrap">
-          <h1 className="font-semibold text-xl mb-2">숙소 설명</h1>
-          {data?.desc ?? "설명이 없습니다."}
-        </div>
-        <div className="py-8 px-4 border-b border-gray-300 leading-8 text-gray-800 whitespace-pre-wrap">
+        <RoomDesc desc={data?.desc ?? "설명이 없습니다."} />
+        <div className="py-8 px-4 border-b border-gray-300 leading-8 text-gray-800 whitespace-pre-line break-words">
           <h1 className="font-semibold text-xl mb-2">숙박 장소</h1>
           {data?.bedroomDesc ?? "설명이 없습니다."}
         </div>
-        <div className="py-8 px-4 border-b border-gray-300 leading-8 text-gray-800 whitespace-pre-wrap">
+        <div className="py-8 px-4 border-b border-gray-300 leading-8 text-gray-800 whitespace-pre-line break-words">
           <h1 className="font-semibold text-xl mb-2">숙소 편의시설</h1>
           <div className="grid md:grid-cols-2 gap-1">
             <div className="flex gap-2 items-center mt-4">

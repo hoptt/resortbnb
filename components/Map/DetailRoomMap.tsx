@@ -3,6 +3,7 @@
 import { RoomType } from "@/interface";
 import Script from "next/script";
 import { FullPageLoader } from "../Loader";
+import { salePrice } from "@/utils";
 
 declare global {
   interface Window {
@@ -45,7 +46,7 @@ export default function DetailRoomMap({ data }: { data: RoomType }) {
       marker.setMap(map);
 
       // custom overlay 설정
-      const content = `<div class="custom_overlay">${data.price.toLocaleString()}원</div>`;
+      const content = `<div class="custom_overlay">${salePrice(data.price, data.sale).toLocaleString()}원</div>`;
       // custom overlay 생성
       const customOverlay = new window.kakao.maps.CustomOverlay({
         position: markerPosition,

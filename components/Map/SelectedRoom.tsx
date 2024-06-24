@@ -34,7 +34,9 @@ export default function SelectedRoom() {
             </div>
             <div className="p-4 font-semibold bg-white rounded-b-lg">
               <div className="mt-2">{selectedRoom.title}</div>
-              <div className="mt-1 text-gray-400">{selectedRoom.address}</div>
+              <div className="mt-1 text-gray-400">
+                {selectedRoom.base_address}
+              </div>
               <div className="mt-1">
                 {selectedRoom.price?.toLocaleString()}원{" "}
                 <span className="text-gray-400"> /박</span>

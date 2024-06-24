@@ -76,7 +76,8 @@ model Room{
   title String
   images String[]
   imageKeys String[]
-  address String
+  base_address String
+  detailed_address String?
   lat String
   lng String
   category String
@@ -98,9 +99,12 @@ model Room{
   updatedAt DateTime @default(now()) @updatedAt
   createdAt DateTime @default(now())
   userId String
+  eventId Int?
+  use String @default("Y")
   likes Like[]
   comments Comment[]
   bookings Booking[]
+  events Events? @relation(fields: [eventId], references: [id])
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([userId])
 }
@@ -112,6 +116,8 @@ model Events{
   type String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  bookings Booking[]
+  rooms Room[]
 }
 
 model Faq{
@@ -127,12 +133,15 @@ model Booking{
   guestCount Int
   totalDays Int
   totalAmount Int
+  dayPrice Int @default(0)
   discounted Int?
   roomId Int
+  eventId Int?
   userId String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   status BookingStatus
+  events Events? @relation(fields: [eventId], references: [id])
   room Room @relation(fields: [roomId], references: [id])
   user User @relation(fields: [userId], references: [id])
   payments Payment[]

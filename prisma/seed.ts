@@ -83,10 +83,11 @@ async function seedRooms() {
         ],
         lat: getRandomLatitude(),
         lng: getRandomLongtitude(),
-        address:
+        base_address:
           faker.location.state() +
           faker.location.street() +
           faker.location.streetAddress({ useFullAddress: true }),
+        detailed_address: "",
         desc: faker.lorem.paragraph(),
         category: CATEGORY[Math.floor(Math.random() * CATEGORY.length)],
         bedroomDesc: faker.lorem.words(),

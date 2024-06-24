@@ -1,10 +1,11 @@
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import prisma from "@/db";
+import { authOptions } from "@/utils/authOptions";
+import { timeout } from "@/utils";
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
   const { searchParams } = new URL(req.url);
   const page = searchParams.get("page") as string;
   const limit = searchParams.get("limit") as string;
@@ -41,12 +42,13 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     return NextResponse.json({ error: "unauthorized user" }, { status: 401 });
   }
 
+  await timeout(1000);
   const formData = await req.json();
   const { roomId } = formData;
 

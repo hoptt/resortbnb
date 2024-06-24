@@ -56,6 +56,11 @@ export default function RefundButton({ booking, canRefund }: RefundProps) {
             예약 취소하기
           </button>
         )}
+        {booking.status !== "CANCEL" && (
+          <span className="ms-auto text-sm text-gray-500">
+            예약 취소는 출발일 기준 10 일 이전에 가능합니다
+          </span>
+        )}
       </section>
       {isOpen && (
         <Modal isOpen={isOpen} closeModal={closeModal} title="예약 취소">
