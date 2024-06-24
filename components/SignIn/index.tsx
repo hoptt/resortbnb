@@ -25,26 +25,27 @@ export function SignInComponent() {
         <button
           type="button"
           onClick={handleClickGoogle}
-          className="relative border border-gray-700 rounded-md py-3 text-sm hover:bg-black/5 text-center font-semibold"
+          className="relative border border-gray-400 rounded-md py-3 text-sm hover:bg-black/[0.05] text-center font-semibold"
         >
           <FcGoogle className="absolute left-5 text-xl my-auto inset-y-0" />
           구글로 로그인하기
         </button>
         <button
           type="button"
-          onClick={handleClickNaver}
-          className="relative border border-gray-700 rounded-md py-3 text-sm hover:bg-black/5 text-center font-semibold"
-        >
-          <SiNaver className="absolute left-6 text-lg text-green-400 my-auto inset-y-0" />
-          네이버로 로그인하기
-        </button>
-        <button
-          type="button"
           onClick={handleClickKakao}
-          className="relative border border-gray-700 rounded-md py-3 text-sm hover:bg-black/5 text-center font-semibold"
+          className="relative border border-gray-400 rounded-md py-3 text-sm hover:bg-black/[0.05] text-center font-semibold"
         >
           <RiKakaoTalkFill className="absolute left-5 text-xl text-yellow-950 my-auto inset-y-0" />
           카카오로 로그인하기
+        </button>
+        <button
+          type="button"
+          onClick={handleClickNaver}
+          disabled
+          className="relative border border-gray-200 rounded-md py-3 text-gray-300 text-sm text-center font-semibold disabled:bg-gray-100/50 cursor-not-allowed"
+        >
+          <SiNaver className="absolute left-6 text-lg text-gray-300 my-auto inset-y-0" />
+          네이버로 로그인하기 (심사 중)
         </button>
       </div>
     </div>

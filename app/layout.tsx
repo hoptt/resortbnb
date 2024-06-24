@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: "Resort bnb",
   description: "Resort bnb 로 여행을 떠나세요",
   keywords: ["Resortbnb", "여행", "숙소", "호텔", "펜션", "최저가"],
+  icons: {
+    icon: "/images/favicon.ico",
+  },
   openGraph: {
     title: "Resortbnb로 여행하기",
     description: "Resortbnb 로 여행을 계획해보세요",
