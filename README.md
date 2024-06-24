@@ -1,19 +1,19 @@
 # 숙소 플랫폼
 
-## 기술 스택
+## 🎯 기술 스택
 
 - **HTML, CSS, TypeScript**
 - **Next.js**: 서버 측 렌더링, 라우팅 등을 위한 React 프레임워크
 - **Prisma**: TypeScript와 Node.js를 위한 데이터베이스 툴킷
 - **Supabase**: 백엔드 서비스의 오픈 소스 Firebase 대안
 
-## 주요 라이브러리
+## 📜 주요 라이브러리
 
 - **react-hook-form**: 검증 및 로딩 처리가 최적화된 폼 관리
 - **recoil**: 전역 상태 관리 및 persist 로 숙소등록 폼 localstorage 저장
 - **react-query**: 데이터 가져오기 및 캐싱, 무한 스크롤 및 optimistic update (좋아요 기능) 구현
 
-## 사용된 도구
+## 🛠️ 사용된 도구
 
 - **Storybook**: 재사용할 컴포넌트 정의 chromatic 으로 storybook 따로 배포 https://6662b32c0b44f934b72785fe-mpkysrxxss.chromatic.com/
 - **Cypress**: 숙소 필터 검색 부분 엔드 투 엔드 테스트
