@@ -68,6 +68,10 @@ export function RoomRegisterAddress() {
       setValue("detailed_address", roomForm.detailed_address);
     }
   }, [roomForm, setValue]);
+
+  useEffect(() => {
+    if (!roomForm?.title) router.replace("/");
+  }, [roomForm, router]);
   return (
     <>
       <form
@@ -111,6 +115,7 @@ export default function RoomRegisterCategory() {
   useEffect(() => {
     router.prefetch(FormUrl.INFO);
   }, [router]);
+
   return (
     <>
       <section className="flex flex-col gap-4">
@@ -207,6 +212,10 @@ export function RoomRegisterFeature() {
   useEffect(() => {
     router.prefetch(FormUrl.IMAGE);
   }, [router]);
+
+  useEffect(() => {
+    if (!roomForm?.base_address) router.replace("/");
+  }, [roomForm, router]);
   return (
     <>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
@@ -465,6 +474,11 @@ export function RoomRegisterImage() {
       setDisableSubmit(false);
     }
   };
+
+  useEffect(() => {
+    if (!roomForm?.category || !roomForm?.title || !roomForm.base_address)
+      router.replace("/");
+  }, [roomForm, router]);
   return (
     <>
       <form
@@ -567,6 +581,10 @@ export function RoomRegisterInfo() {
   useEffect(() => {
     router.prefetch(FormUrl.ADDRESS);
   }, [router]);
+
+  useEffect(() => {
+    if (!roomForm?.category) router.replace("/");
+  }, [roomForm, router]);
   return (
     <>
       <form

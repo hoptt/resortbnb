@@ -21,13 +21,13 @@ export default function SelectedRoom() {
             <AiOutlineCloseCircle />
           </button>
           <Link href={`/rooms/${selectedRoom.id}`}>
-            <div className="rounded-lg-t md:h-[200px] overflow-hidden">
+            <div className="rounded-lg-t h-[200px] overflow-hidden relative">
               <Image
                 src={selectedRoom?.images[0]}
-                width={384}
-                height={384}
                 alt="room image"
-                className="rounded-t-lg"
+                fill
+                className="rounded-t-lg object-cover"
+                sizes="(min-width: 640px) 240px, 320px"
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
               />
