@@ -16,7 +16,7 @@ export default function SelectedRoom() {
           <button
             type="button"
             onClick={() => setSelectedRoom(null)}
-            className="absolute right-2 top-2 text-white text-2xl bg-black/20 rounded-full"
+            className="absolute right-2 top-2 text-white text-2xl bg-black/20 rounded-full z-[1]"
           >
             <AiOutlineCloseCircle />
           </button>
@@ -33,7 +33,7 @@ export default function SelectedRoom() {
               />
             </div>
             <div className="p-4 text-sm md:text-base font-semibold bg-white rounded-b-lg">
-              <div className="mt-2">{selectedRoom.title}</div>
+              <div className="md:mt-2">{selectedRoom.title}</div>
               <div className="mt-1 text-gray-400">
                 {selectedRoom.base_address}
               </div>
