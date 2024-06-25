@@ -1,3 +1,4 @@
+import AdImage from "@/components/Advertise/AdImage";
 import CategoryList from "@/components/CategoryList";
 import { PrimaryLoader } from "@/components/Loader";
 import { Main } from "@/components/Room/RoomList";
@@ -10,7 +11,18 @@ const DynamicAdvertiseBox = dynamic(
   () => import("@/components/Advertise/AdvertiseBox"),
   {
     ssr: false,
-    loading: () => <div></div>,
+    loading: () => (
+      <div>
+        <div
+          className="relative overflow-hidden rounded-md"
+          style={{ aspectRatio: "20/19" }}
+        >
+          <AdImage />
+        </div>
+        <div className="w-[150px] mt-3 h-5 bg-gray-100" />
+        <div className="w-[100px] mt-3 h-5 bg-gray-100" />
+      </div>
+    ),
   }
 );
 export default async function Home() {
@@ -34,7 +46,9 @@ export default async function Home() {
       <CategoryList />
       <HydrationBoundary state={dehydratedState}>
         <Main>
-          <DynamicAdvertiseBox />
+          <DynamicAdvertiseBox>
+            <AdImage />
+          </DynamicAdvertiseBox>
         </Main>
       </HydrationBoundary>
     </>

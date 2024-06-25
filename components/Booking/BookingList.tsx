@@ -83,7 +83,7 @@ export default function BookingList() {
                 <button
                   type="button"
                   onClick={() => router.push(`/rooms/${booking?.roomId}`)}
-                  className="flex gap-1 items-center underline hover:text-gray-500"
+                  className="hidden md:flex gap-1 items-center underline hover:text-gray-500"
                 >
                   숙소 보기
                   <BiChevronRight className="text-xl" />

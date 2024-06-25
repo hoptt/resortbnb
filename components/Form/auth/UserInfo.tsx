@@ -27,7 +27,7 @@ export default function UserInfo() {
   });
 
   return (
-    <div className="mt-5 md:mt-10 max-w-3xl mx-auto">
+    <div className="mt-5 md:mt-10 max-w-3xl mx-auto px-4">
       <div className="flex justify-between gap-4">
         <h1 className="text-2xl font-semibold">
           개인정보

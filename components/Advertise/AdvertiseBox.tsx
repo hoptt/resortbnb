@@ -4,7 +4,11 @@ import { AdTimer } from "../Timer";
 import Image from "next/image";
 import { AdvertiseContent, getEvents } from ".";
 
-export default async function AdvertiseBox() {
+export default async function AdvertiseBox({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { term: expired }: { term: string } = await getEvents();
   return (
     <div>
@@ -13,16 +17,7 @@ export default async function AdvertiseBox() {
           className="relative overflow-hidden rounded-md"
           style={{ aspectRatio: "20/19" }}
         >
-          <Image
-            src={"/images/ad.jpeg"}
-            alt={"광고 이미지"}
-            placeholder="blur"
-            style={{ objectFit: "cover", filter: "blur(2px) brightness(0.5)" }}
-            fill
-            sizes="(min-width: 640px) 240px, 320px"
-            blurDataURL={BLUR_DATA_URL}
-            className="rounded-md w-full h-auto object-fit hover:shadow-lg"
-          />
+          {children}
           <div className="absolute top-0 left-0 w-full px-3 my-2">
             <AdTimer expiryTime={expired} />
             <div className="text-white">

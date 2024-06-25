@@ -2,8 +2,8 @@ import UserEditForm from "@/components/Form/auth/UserEditForm";
 export default async function UserEditPage() {
   return (
     <>
-      <div className="space-y-12 max-w-3xl mx-auto">
-        <div className="mt-10 pb-12">
+      <div className="space-y-12 max-w-3xl mx-auto px-4">
+        <div className="mt-5 md:mt-10 pb-12">
           <h2 className="text-2xl font-semibold leading-7 text-gray-900">
             개인정보 수정
           </h2>
