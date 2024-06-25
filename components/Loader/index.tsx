@@ -148,9 +148,9 @@ export function MapLoading({ className }: { className: string }) {
   );
 }
 
-export function PrimaryLoader({ className }: { className?: string }) {
+export function PrimaryLoader() {
   return (
-    <div className="min-h-screen flex flex-col justify-center z-50">
+    <div className="min-h-screen flex flex-col justify-center z-50 absolute top-0 left-0 w-full">
       <div className="flex gap-5 items-center justify-center">
         <div className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></div>
         <div className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></div>

@@ -1,4 +1,5 @@
 import CategoryList from "@/components/CategoryList";
+import { PrimaryLoader } from "@/components/Loader";
 import { Main } from "@/components/Room/RoomList";
 import { fetchRooms } from "@/components/Room/RoomList/_lib/api";
 import queryClient from "@/query";

@@ -171,7 +171,7 @@
 }
 
 .react-calendar__tile.react-calendar__tile--active:hover {
-  background: rgb(129, 129, 129) !important;
+  background: black !important;
   color: white !important;
   border-radius: 50%;
 }
@@ -411,6 +411,10 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-weight: 700;
+}
+input[type="date"],
+select {
+  background-color: white;
 }
 
 .ellipsis__p {

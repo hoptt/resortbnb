@@ -27,9 +27,9 @@ export default function UserInfo() {
   });
 
   return (
-    <div className="mt-10 max-w-3xl mx-auto px-4">
+    <div className="mt-5 md:mt-10 max-w-3xl mx-auto">
       <div className="flex justify-between gap-4">
-        <h1 className="text-3xl font-semibold">
+        <h1 className="text-2xl font-semibold">
           개인정보
           {user?.account?.[0].provider === "google" ? (
             <FcGoogle className="inline-block ml-2 text-lg" />
@@ -43,13 +43,13 @@ export default function UserInfo() {
         </h1>
         <button
           type="button"
-          className="text-sm font-semibold underline px-4 py-1.5 rounded-md hover:bg-black/5"
+          className="text-sm font-semibold underline px-4 pt-1.5 pb-1.5 rounded-md hover:bg-black/5"
           onClick={() => router.push("/users/edit")}
         >
           수정하기
         </button>
       </div>
-      <div className="flex flex-col mt-10 mb-28">
+      <div className="flex flex-col mt-5 md:mt-10 mb-28">
         {isPending ? (
           <LoaderUserInfo />
         ) : (

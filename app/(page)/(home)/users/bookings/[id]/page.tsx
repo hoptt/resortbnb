@@ -16,9 +16,9 @@ export default async function BookingPage({
   const canRefund = dayjs(booking?.checkIn).diff(dayjs(), "days") > 10;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 pt-10 pb-20">
+    <div className="max-w-5xl mx-auto pt-5 md:pt-10 pb-20">
       <h1 className="text-xl md:text-2xl font-semibold">예약 상세내역</h1>
-      <div className="rounded-md border border-gray-300 p-6 mt-10">
+      <div className="rounded-md border border-gray-300 p-6 mt-5 md:mt-10">
         <section className="flex border-b gap-4 pb-6">
           <Image
             src={booking?.room?.images?.[0] || "/images/logo.png"}
@@ -91,14 +91,14 @@ export default async function BookingPage({
         </section>
         <RefundButton booking={booking} canRefund={canRefund} />
       </div>
-      <h1 className="text-xl md:text-2xl font-semibold mt-16">
+      <h1 className="text-xl md:text-2xl font-semibold mt-12 md:mt-16">
         결제 상세 내역
       </h1>
       {booking?.payments && booking.payments.length > 0 ? (
         <>
           {booking.payments.map((payment) => (
             <div
-              className="rounded-md border border-gray-300 p-6 mt-10"
+              className="rounded-md border border-gray-300 p-6 mt-5 md:mt-10"
               key={payment.id}
             >
               <div className="flex flex-col gap-6 pb-4 pt-2">
@@ -163,7 +163,7 @@ export default async function BookingPage({
           ))}
         </>
       ) : (
-        <div className="rounded-md border border-gray-300 p-6 mt-10 text-gray-600">
+        <div className="rounded-md border border-gray-300 p-6 mt-5 md:mt-10 text-gray-600">
           결제 내역이 없습니다
         </div>
       )}

@@ -59,9 +59,9 @@ export default function PaymentPage() {
   }, [price]);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 my-20">
+    <div className="max-w-2xl mx-auto mt-5 lg:mt-20 mb-20">
       <div className="flex flex-col gap-2 mt-4">
-        <h1 className="text-lg md:text-2xl font-semibold">확인 및 결제</h1>
+        <h1 className="text-2xl font-semibold">확인 및 결제</h1>
         <p className="text-gray mb-4">
           결제 수단을 선택하고 결제를 진행해주세요. 환불금은 예약 취소 후 2~3일
           내에 결제한 카드로 입금됩니다. 동의하시는 경우에만 아래 버튼을 눌러

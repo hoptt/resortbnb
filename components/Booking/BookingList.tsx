@@ -43,12 +43,12 @@ export default function BookingList() {
           {page.data.map((booking: BookingType) => (
             <div
               key={booking.id}
-              className="flex flex-col gap-6 border-b pb-8 hover:bg-black/5 p-6"
+              className="flex flex-col gap-6 border-b hover:bg-black/5 md:px-6 py-6"
             >
               <h1 className="font-semibold text-lg md:text-xl">
                 {booking?.status === "SUCCESS" ? "예약된 여행" : "취소된 여행"}
               </h1>
-              <div className="flex gap-4 items-center w-full justify-between">
+              <div className="flex flex-col md:flex-row gap-4 md:items-center w-full justify-between">
                 <Link href={`/rooms/${booking?.roomId}`} prefetch={false}>
                   <div className="flex items-center gap-4">
                     <Image
@@ -93,7 +93,7 @@ export default function BookingList() {
                 <button
                   type="button"
                   onClick={() => router.push(`/users/bookings/${booking?.id}`)}
-                  className="text-white bg-rose-600 hover:bg-rose-500 px-4 py-2.5 rounded-md"
+                  className="text-white bg-rose-600 hover:bg-rose-500 text-sm md:text-base py-2 px-4 md:py-2.5 rounded-md"
                 >
                   예약내역 확인
                 </button>

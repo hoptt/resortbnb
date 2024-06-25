@@ -9,7 +9,7 @@ React와 Next.js를 사용하여 동적이고 반응성 높은 UI를 구현했�
 
 ## 🎯 기술 스택
 
-- **HTML, CSS, TypeScript**
+- **HTML, CSS, TailwindCSS, TypeScript**
 - **Next.js**: 서버 측 렌더링, 라우팅 등을 위한 React 프레임워크
 - **Prisma**: TypeScript와 Node.js를 위한 데이터베이스 툴킷
 - **Supabase**: 백엔드 서비스의 오픈 소스 Firebase 대안

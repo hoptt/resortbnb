@@ -21,7 +21,7 @@ export function SignInComponent() {
       <div className="text-sm text-gray-500 mt-2">
         SNS 계정을 이용해서 로그인 또는 회원가입을 해주세요.
       </div>
-      <div className="flex flex-col gap-5 mt-8 sm:mt-16">
+      <div className="flex flex-col gap-5 mt-8 md:mt-16">
         <button
           type="button"
           onClick={handleClickGoogle}

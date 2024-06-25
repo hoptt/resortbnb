@@ -21,7 +21,7 @@ export async function AdvertiseComponent() {
   const { term: expired }: { term: string } = await getEvents();
 
   return (
-    <div className="max-w-xl mx-auto pt-2 pb-12">
+    <div className="max-w-xl mx-auto pt-2 pb-6 sm:pb-12">
       <div className="flex flex-col gap-6">
         <h1 className="text-lg font-semibold text-center">
           타임 특가 할인 이벤트

@@ -57,8 +57,8 @@ export default async function PaymentSuccess({ searchParams }: ParamsProps) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto py-20 px-4">
-      <div className="flex flex-col gap-6 border-b pb-8 pt-4">
+    <div className="max-w-2xl mx-auto pt-5 lg:pt-20 pb-20 px-4">
+      <div className="flex flex-col gap-6 border-b pb-8">
         <h3 className="font-semibold text-lg md:text-2xl">주문 내역</h3>
         <div className="rounded-md border-black p-2 border-2 cursor-pointer hover:bg-black/5">
           <h3 className="font-semibold">주문</h3>

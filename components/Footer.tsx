@@ -6,7 +6,7 @@ export default function Footer() {
           © 2024 <span className="hover:underline">Resortbnb.</span> All Rights
           Reserved.
         </div>
-        <ul className="flex flex-wrap gap-4 items-center text-sm text-gray-800 mt-2 sm:mt-0">
+        <ul className="flex flex-wrap gap-4 items-center text-sm text-gray-800 mt-2 md:mt-0">
           <li>
             <a href="#" className="hover:underline">
               개인정보 처리방침
