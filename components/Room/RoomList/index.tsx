@@ -1,5 +1,6 @@
 "use client";
 
+import { filterState } from "@/atom";
 import { BLUR_DATA_URL } from "@/constants";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { LikeType, RoomType } from "@/interface";
@@ -19,6 +20,7 @@ import React, { MouseEventHandler, ReactNode, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { CiShare1 } from "react-icons/ci";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -29,8 +31,6 @@ import { MapButton } from "../../Map";
 import ShareButton from "../RoomDetail/ShareButton";
 import { updateRoom } from "../RoomDetail/_lib/api";
 import { fetchRooms } from "./_lib/api";
-import { filterState } from "@/atom";
-import { useRecoilValue, useResetRecoilState } from "recoil";
 
 export function Main({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);

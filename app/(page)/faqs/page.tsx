@@ -16,7 +16,7 @@ export default async function Faqs() {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div className={cn("max-w-5xl mx-auto", inter.className)}>
+    <div className={cn("max-w-5xl mx-auto mt-5 lg:mt-10", inter.className)}>
       <h1 className="text-lg md:text-3xl font-semibold">FAQ</h1>
       <p className="mt-2 text-gray-600">도움말 내용을 확인해주세요.</p>
       <div className="mt-8 flex flex-col mb-10">
