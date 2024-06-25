@@ -25,8 +25,6 @@ export default function DetailRoomMap({ data }: { data: RoomType }) {
       // 확대 축소 제어
       map.setZoomable(false);
 
-      // 이동 제어
-      map.setDraggable(false);
       const markerPosition = new window.kakao.maps.LatLng(data.lat, data.lng);
 
       // 마커 이미지 설정

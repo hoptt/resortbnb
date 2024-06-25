@@ -38,7 +38,7 @@ const randomString = [
     남해 돌산 대나무숲 <span className="text-xs">🌿</span>
   </>,
   <>
-    여수 밤바다 <span className="">🌃</span>
+    여수 밤바다 <span className="">🌉</span>
   </>,
 ];
 export default function SearchComponent({

@@ -59,7 +59,6 @@ export default async function PaymentSuccess({ searchParams }: ParamsProps) {
 
   return (
     <>
-      <CheckAni title="결제가 완료되었습니다" />
       <div
         className="max-w-2xl mx-auto pt-5 lg:pt-20 pb-20 px-4"
         style={{
@@ -119,6 +118,7 @@ export default async function PaymentSuccess({ searchParams }: ParamsProps) {
           </a>
         </div>
       </div>
+      <CheckAni title="결제가 완료되었습니다" />
     </>
   );
 }

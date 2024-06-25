@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader, LoaderGrid } from "@/components/Loader";
-import { GridLayout, RoomItem } from "@/components/Room/RoomList";
+import { GridLayout, RoomItem, RoomLikeItem } from "@/components/Room/RoomList";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { LikeType } from "@/interface";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -34,6 +34,7 @@ export default function LikesRoom() {
     data: likes,
     isError,
     isLoading,
+    isPending,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -43,6 +44,7 @@ export default function LikesRoom() {
     getNextPageParam: (lastPage, pages) =>
       lastPage.data?.length >= limit ? lastPage.page + 1 : undefined,
     initialPageParam: 1,
+    enabled: !!session?.user.id,
   });
 
   if (isError) throw new Error("데이터를 불러오는중 오류가 발생했습니다");
@@ -63,15 +65,15 @@ export default function LikesRoom() {
               </div>
             )}
             {page.data.map((like: LikeType) => (
-              <RoomItem
+              <RoomLikeItem
                 key={like.id}
-                room={like.room}
+                like={like}
                 optimisticKey={queryKey}
               />
             ))}
           </React.Fragment>
         ))}
-        {(isLoading || isFetchingNextPage) && <LoaderGrid />}
+        {(isPending || isLoading || isFetchingNextPage) && <LoaderGrid />}
       </GridLayout>
 
       <div className="touch-none w-full h-10 mb-10" ref={ref} />

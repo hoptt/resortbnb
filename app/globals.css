@@ -442,7 +442,6 @@ select {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 99;
   animation: hideContainer 1.5s forwards 3s;
 }
 
