@@ -4,7 +4,7 @@ export async function getEvents() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/events?type=sale`,
     {
-      cache: "no-store",
+      cache: "force-cache",
     }
   );
 
