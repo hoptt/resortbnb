@@ -1,6 +1,3 @@
-import { BLUR_DATA_URL } from "@/constants";
-import Image from "next/image";
-import Link from "next/link";
 import { AdTimer } from "../Timer";
 import BookingBtn from "./BookingBtn";
 export async function getEvents() {
@@ -14,12 +11,10 @@ export async function getEvents() {
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
-
   return res.json();
 }
 export async function AdvertiseComponent() {
   const { term: expired }: { term: string } = await getEvents();
-
   return (
     <div className="max-w-xl mx-auto pt-2 pb-6 sm:pb-12">
       <div className="flex flex-col gap-6">
