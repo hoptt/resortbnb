@@ -124,12 +124,12 @@ const FEATURE_TYPE = {
 type FeatureType = (typeof FEATURE_TYPE)[keyof typeof FEATURE_TYPE];
 
 export const FeatureDesc: Record<FeatureType, string> = {
-  [FEATURE_TYPE.FREE_CANCEL]: "무료 취소가 가능합니다.",
-  [FEATURE_TYPE.PAID_CANCEL]: "무료 취소가 불가능합니다.",
-  [FEATURE_TYPE.SELF_CHECKIN]: "셀프 체크인이 가능합니다.",
-  [FEATURE_TYPE.SELF_CHECKIN_DISALLOWED]: "셀프 체크인이 불가능합니다.",
-  [FEATURE_TYPE.FREE_OFFICE_SPACE]: "무료 사무공간이 제공됩니다.",
-  [FEATURE_TYPE.NO_OFFICE_SPACE]: "사무공간이 제공되지 않습니다.",
+  [FEATURE_TYPE.FREE_CANCEL]: "무료 취소가 가능합니다",
+  [FEATURE_TYPE.PAID_CANCEL]: "무료 취소가 불가능합니다",
+  [FEATURE_TYPE.SELF_CHECKIN]: "셀프 체크인이 가능합니다",
+  [FEATURE_TYPE.SELF_CHECKIN_DISALLOWED]: "셀프 체크인이 불가능합니다",
+  [FEATURE_TYPE.FREE_OFFICE_SPACE]: "무료 사무공간이 제공됩니다",
+  [FEATURE_TYPE.NO_OFFICE_SPACE]: "사무공간이 제공되지 않습니다",
 };
 
 export const RoomEditField = [
